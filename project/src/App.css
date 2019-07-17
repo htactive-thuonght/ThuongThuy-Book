@@ -1,0 +1,31 @@
+.form-add {
+  margin-left: 165px;
+  width: 59%;
+}
+.menu-left{
+  height: 700px;
+}
+.product-list{
+  margin: 40px;
+}
+.panel{
+  margin-top: 40px;
+}
+.panel-heading{
+  margin-left: 200px;
+}
+.panel-body{
+  margin-top: 50px;
+}
+.cat-list{
+  margin: 40px;
+}
+.add-product{
+  margin: 100px;
+}
+.panel-heading-add{
+  margin-left: 100px;
+}
+.form-dai{
+  width: 650px !important;
+}
