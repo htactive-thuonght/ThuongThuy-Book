@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { NavLink } from "react-router-dom";
 export default class FormUpdateCat extends Component {
   constructor(props) {
     super(props);
@@ -39,13 +39,17 @@ export default class FormUpdateCat extends Component {
                     onChange={this.handleChange}
                   />
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={() => this.editCategories(item.id, this.state.value)}
-                >
-                  UPDATE
-                </button>
+                <NavLink to={{ pathname: "/categories" }} className="link">
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() =>
+                      this.editCategories(item.id, this.state.value)
+                    }
+                  >
+                    UPDATE
+                  </button>
+                </NavLink>
               </div>
             );
           })}

@@ -37,7 +37,7 @@ export default class CategoriesList extends Component {
                   {this.props.categories.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <th scope="row">{item.id}</th>
+                        <th scope="row">{index}</th>
                         <td>{item.name}</td>
                         <td>
                           <i

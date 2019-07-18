@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { NavLink } from "react-router-dom";
 export default class FormAddCategories extends Component {
   constructor(props) {
     super(props);
@@ -7,7 +7,6 @@ export default class FormAddCategories extends Component {
       name: ""
     };
   }
-
 
   handleChange = event => {
     this.setState({
@@ -17,7 +16,7 @@ export default class FormAddCategories extends Component {
 
   addCategory = () => {
     this.props.addCategory(this.state.name);
-  }
+  };
 
   render() {
     return (
@@ -37,9 +36,15 @@ export default class FormAddCategories extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <button type="button" className="btn btn-success" onClick={this.addCategory}>
-            ADD
-          </button>
+          <NavLink to={{ pathname: "/categories" }} className="link">
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={this.addCategory}
+            >
+              ADD
+            </button>
+          </NavLink>
         </form>
       </div>
     );

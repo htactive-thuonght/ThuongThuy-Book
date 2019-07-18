@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase/context";
+import { NavLink } from "react-router-dom";
 class FormAddProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      image:"",
-      url:""
+      image: "",
+      url: ""
     };
   }
 
@@ -22,10 +23,8 @@ class FormAddProduct extends Component {
   handleImage = e => {
     if (e.target.files[0]) {
       const image = e.target.files[0];
-      this.setState({image})
+      this.setState({ image });
     }
-    
-    
   };
   handleUpload = () => {
     const { image } = this.state;
@@ -92,6 +91,7 @@ class FormAddProduct extends Component {
           <div className="form-group">
             <label htmlFor="formGroupExampleInput">Quantity</label>
             <input
+            min="0"
               type="number"
               className="form-control form-dai"
               id="formGroupExampleInput"
@@ -103,6 +103,7 @@ class FormAddProduct extends Component {
           <div className="form-group">
             <label htmlFor="formGroupExampleInput">Status</label>
             <input
+            min="0" max="1"
               type="number"
               className="form-control form-dai"
               id="formGroupExampleInput"
@@ -122,6 +123,7 @@ class FormAddProduct extends Component {
               onChange={this.handleImage}
             />
           </div>
+          <NavLink to={{ pathname: "/book" }} className="link">
           <button
             type="button"
             className="btn btn-success"
@@ -129,6 +131,7 @@ class FormAddProduct extends Component {
           >
             ADD
           </button>
+          </NavLink>
         </form>
       </div>
     );

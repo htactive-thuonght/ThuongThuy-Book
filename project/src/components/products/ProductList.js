@@ -36,7 +36,7 @@ export default class ProductList extends Component {
                   {this.props.products.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <th scope="row">{item.id}</th>
+                        <th scope="row">{index}</th>
                         <td>{item.name}</td>
                         <td>{item.type}</td>
                         <td>{item.quantity}</td>

@@ -25,7 +25,7 @@ class firebase {
   getCategories = () => this.db.ref("categories");
 
   product = (index) => this.db.ref(`products/${index}`);
-  products = () => this.db.ref("products");
+  queryProducts = () => this.db.ref("products");
 }
 
 export default firebase;

@@ -29,19 +29,19 @@ class App extends React.Component {
     };
   }
 
-  getTableCall(table, index) {
+  getTableCall = table => {
     switch (table) {
       case "categories": {
-        return this.props.firebase.getCategories(index);
+        return this.props.firebase.getCategories();
       }
       case "products": {
-        return this.props.firebase.products(index);
+        return this.props.firebase.queryProducts();
       }
       default: {
         return "";
       }
     }
-  }
+  };
 
   getData = table => {
     let tableCall = this.getTableCall(table);
@@ -75,22 +75,21 @@ class App extends React.Component {
   };
   addBook = book => {
     const { name, type, quantity, image, status } = book;
-    this.props.firebase.products().push({ name,type, quantity, image,  status });
+    this.props.firebase
+      .queryProducts()
+      .push({ name, type, quantity, image, status });
   };
   deleteBook = index => {
     this.props.firebase.product(index).remove();
   };
   editBook = (index, data) => {
-    console.log(this.props.firebase,'jdhfisdh')
-    const { name, type, quantity, status,image } = data;
-    console.log('data nef', data)
+    const { name, type, quantity, status, image } = data;
     this.props.firebase.product(index).set({
-      image:image,
-      name:name,
-      type:type,
-      quantity:quantity,
-      status:status,
-      
+      image: image,
+      name: name,
+      type: type,
+      quantity: quantity,
+      status: status
     });
   };
 
@@ -103,18 +102,23 @@ class App extends React.Component {
     });
   };
 
+
+  
+
   render() {
     const { categories, products } = this.state;
     return (
       <Router>
-        <Header />
+        <Header/>
         <div className="app-main">
           <LeftMenu />
           <Switch>
             <Route exact path="/" component={() => <Home />} />
             <Route
               path="/book"
-              component={() => <ProductList products={products} deleteBook={this.deleteBook} />}
+              component={() => (
+                <ProductList products={products} deleteBook={this.deleteBook} />
+              )}
             />
             <Route
               path="/categories"
@@ -134,7 +138,7 @@ class App extends React.Component {
             path="/updateBook/:id"
             component={match => (
               <FormUpdateBook
-              products={products}
+                products={products}
                 editBook={this.editBook}
                 match={match}
               />
