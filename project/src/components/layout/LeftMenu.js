@@ -8,34 +8,41 @@ class LeftMenu extends React.Component {
 
   render() {
     return (
-      <div>
-          <div className="app-sidebar sidebar-shadow">
-            <div className="scrollbar-sidebar menu-left" >
-              <div className="app-sidebar__inner">
-                <ul className="vertical-nav-menu">
-                  <li className="app-sidebar__heading">UI Tables</li>
-                  <li>
-                    <NavLink to={{ pathname: "/user" }} className="link">
-                      <i className="fa fa-table" />
-                      Users
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to={{ pathname: "/categories" }} className="link">
-                      <i className="fa fa-book" />
-                      Categories
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to={{ pathname: "/book" }} className="link">
-                      <i className="fa fa-book" />
-                      Books
-                    </NavLink>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+      <div className="navbar-default sidebar" role="navigation">
+        <div className="sidebar-nav navbar-collapse slimscrollsidebar">
+          <ul className="nav" id="side-menu">
+            <li style={{ padding: "10px 0 0" }}>
+              <a href="/" className="waves-effect">
+                <i className="fa fa-clock-o fa-fw" aria-hidden="true" />
+                <span className="hide-menu">Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <NavLink to={{ pathname: "/users" }} className="link">
+                <i className="fa fa-user fa-fw" aria-hidden="true" />
+                <span className="hide-menu">USERS</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={{ pathname: "/categories" }} className="link">
+                <i className="fa fa-table fa-fw" aria-hidden="true" />
+                <span className="hide-menu">CATEGORIES</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={{ pathname: "/books" }} className="link">
+                <i className="fa fa-book fa-fw" aria-hidden="true" />
+                <span className="hide-menu">BOOKS</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={{ pathname: "/booking" }} className="link">
+                <i className="fa fa-cart-plus fa-fw" aria-hidden="true" />
+                <span className="hide-menu">BOOKING</span>
+              </NavLink>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }

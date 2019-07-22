@@ -1,17 +1,24 @@
-import React from "react";
-import Header from "./components/layout/Header";
-import LeftMenu from "./components/layout/LeftMenu";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./pages/Home";
-import { withFirebase } from "./components/Firebase/context";
+import React from 'react';
+import Header from './components/layout/Header';
+import LeftMenu from './components/layout/LeftMenu';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './pages/Home';
+import { withFirebase } from './components/Firebase/context';
 
-import "./App.css";
-import ProductList from "./components/products/ProductList";
-import CategoriesList from "./components/categories/CategoriesList";
-import FormAddProduct from "./components/products/FormAddProduct";
-import FormAddCategories from "./components/categories/FormAddCategories";
-import FormUpdateCat from "./components/categories/FormUpdateCat";
-import FormUpdateBook from "./components/products/FormUpdateBook";
+import './App.css';
+
+import ProductList from './components/products/ProductList';
+import FormAddBook from './components/products/FormAddBook';
+import FormUpdateBook from './components/products/FormUpdateBook';
+
+import CategoriesList from './components/categories/CategoriesList';
+import FormAddCategories from './components/categories/FormAddCategories';
+import FormUpdateCate from './components/categories/FormUpdateCate';
+
+import UserList from './components/users/UserList';
+import FormAddUser from './components/users/FormAddUser';
+import FormUpdateUser from './components/users/FormUpdateUser';
+import Booking from './components/booking/Booking';
 
 class App extends React.Component {
   constructor(props) {
@@ -19,33 +26,30 @@ class App extends React.Component {
     this.state = {
       categories: [],
       products: [],
-      name: "",
-      nameBook: "",
-      type: "",
-      quantity: "",
-      status: "",
-      image: ""
-      // addProduct:{name :'', type: '', quantity: '', status: '', image: ''}
+      users: []
     };
   }
 
-  getTableCall = table => {
+  getTableCall(table, index) {
     switch (table) {
-      case "categories": {
-        return this.props.firebase.getCategories();
+      case 'categories': {
+        return this.props.firebase.getCategories(index);
       }
-      case "products": {
-        return this.props.firebase.queryProducts();
+      case 'products': {
+        return this.props.firebase.books(index);
+      }
+      case 'users': {
+        return this.props.firebase.users(index);
       }
       default: {
-        return "";
+        return '';
       }
     }
-  };
+  }
 
   getData = table => {
     let tableCall = this.getTableCall(table);
-    tableCall.on("value", snapshot => {
+    tableCall.on('value', snapshot => {
       const object = snapshot.val();
       if (object) {
         const objectList = Object.keys(object).map(key => ({
@@ -62,60 +66,92 @@ class App extends React.Component {
       }
     });
   };
+
   componentDidMount() {
-    this.getData("categories");
-    this.getData("products");
+    this.getData('categories');
+    this.getData('products');
+    this.getData('users');
   }
 
   addCategory = name => {
     this.props.firebase.getCategories().push({ name });
     this.setState({
-      name: ""
-    });
-  };
-  addBook = book => {
-    const { name, type, quantity, image, status } = book;
-    this.props.firebase
-      .queryProducts()
-      .push({ name, type, quantity, image, status });
-  };
-  deleteBook = index => {
-    this.props.firebase.product(index).remove();
-  };
-  editBook = (index, data) => {
-    const { name, type, quantity, status, image } = data;
-    this.props.firebase.product(index).set({
-      image: image,
-      name: name,
-      type: type,
-      quantity: quantity,
-      status: status
+      name: ''
     });
   };
 
   deleteCategory = index => {
     this.props.firebase.categories(index).remove();
   };
+
   editCategories = (index, data) => {
     this.props.firebase.categories(index).set({
       name: data
     });
   };
 
+  addUser = user => {
+    const { name, age, image, classes, phone } = user;
+    this.props.firebase.users().push({ name, age, image, classes, phone });
+  };
 
-  
+  deleteUser = index => {
+    this.props.firebase.queryUsers(index).remove();
+  };
+
+  editUser = (index, data) => {
+    // console.log("object", data);
+    const { image, value } = data;
+    this.props.firebase.queryUsers(index).set({
+      image: image || value.image,
+      name: value.name,
+      classes: value.classes,
+      phone: value.phone,
+      age: value.age
+    });
+  };
+
+  addBook = book => {
+    // console.log(book);
+    const { name, type, quantity, quantityRemain, image } = book;
+    this.props.firebase
+      .books()
+      .push({ name, type, quantity, quantityRemain, image });
+  };
+
+  deleteBook = index => {
+    this.props.firebase.queryBooks(index).remove();
+  };
+
+  editBook = (index, data) => {
+    console.log('object', data);
+    const { image, value } = data;
+    this.props.firebase.queryBooks(index).set({
+      image: image || value.image,
+      name: value.name,
+      type: value.type,
+      quantity: value.quantity,
+      quantityRemain: value.quantityRemain
+    });
+  };
 
   render() {
-    const { categories, products } = this.state;
+    const { categories, products, users } = this.state;
     return (
       <Router>
-        <Header/>
+        <Header />
         <div className="app-main">
           <LeftMenu />
           <Switch>
             <Route exact path="/" component={() => <Home />} />
             <Route
-              path="/book"
+              path="/users"
+              component={() => (
+                <UserList users={users} deleteUser={this.deleteUser} />
+              )}
+            />
+            <Route
+              path="/books"
               component={() => (
                 <ProductList products={products} deleteBook={this.deleteBook} />
               )}
@@ -129,15 +165,20 @@ class App extends React.Component {
                 />
               )}
             />
+            <Route path="/booking" component={() => <Booking users={users} />} />
           </Switch>
+
           <Route
-            path="/addProduct"
-            component={() => <FormAddProduct addBook={this.addBook} />}
+            path="/addBook"
+            component={() => (
+              <FormAddBook categories={categories} addBook={this.addBook} />
+            )}
           />
           <Route
             path="/updateBook/:id"
             component={match => (
               <FormUpdateBook
+                categories={categories}
                 products={products}
                 editBook={this.editBook}
                 match={match}
@@ -145,9 +186,9 @@ class App extends React.Component {
             )}
           />
           <Route
-            path="/updateCat/:id"
+            path="/updateCategory/:id"
             component={match => (
-              <FormUpdateCat
+              <FormUpdateCate
                 categories={categories}
                 editCategories={this.editCategories}
                 match={match}
@@ -158,6 +199,21 @@ class App extends React.Component {
             path="/addCategory"
             component={() => (
               <FormAddCategories addCategory={this.addCategory} />
+            )}
+          />
+
+          <Route
+            path="/addUser"
+            component={() => <FormAddUser addUser={this.addUser} />}
+          />
+          <Route
+            path="/updateUser/:id"
+            component={match => (
+              <FormUpdateUser
+                users={users}
+                editUser={this.editUser}
+                match={match}
+              />
             )}
           />
         </div>

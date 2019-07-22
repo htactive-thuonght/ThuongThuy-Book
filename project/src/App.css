@@ -1,31 +1,93 @@
-.form-add {
-  margin-left: 165px;
-  width: 59%;
+#page-wrapper {
+  font-size: 15px !important;
 }
-.menu-left{
-  height: 700px;
+.container-fluid {
+  margin-top: 50;
 }
-.product-list{
-  margin: 40px;
+
+#buttonAdd {
+  margin-right: 200px;
+  float: right;
+  height: 40px;
+  width: 60px;
+  font-size: 15px;
 }
-.panel{
-  margin-top: 40px;
-}
-.panel-heading{
-  margin-left: 200px;
-}
-.panel-body{
+
+.containerTable {
+  height: 1000px;
   margin-top: 50px;
 }
-.cat-list{
-  margin: 40px;
-}
-.add-product{
-  margin: 100px;
-}
-.panel-heading-add{
+.containerTable .table {
+  width: 70%;
   margin-left: 100px;
 }
-.form-dai{
-  width: 650px !important;
+
+.thead {
+  background: #85b4d0;
+}
+
+.formAdd {
+  width: 70%;
+  margin-left: 200px;
+}
+.formAdd .form-group input {
+  height: 50px;
+  font-size: 15px;
+}
+
+.formAdd button {
+  height: 40px;
+  width: 60px;
+}
+
+.fa-trash {
+  color: red;
+}
+
+.fa-pencil {
+  color: #2e64fe;
+}
+
+.formAdd .form-group select {
+  height: 50px;
+  font-size: 15px;
+}
+.form-group label {
+  font-size: 20px;
+  opacity: 0.8;
+}
+
+.form-group input {
+  font-size: 20px;
+}
+
+.form-group select {
+  font-size: 20px;
+}
+
+.form-group button {
+  font-size: 20px;
+  background: #becfa6;
+  border: 1px solid #becfa6;
+}
+
+.booking {
+  padding-left: 220px;
+}
+
+.form-group input[name='search'] {
+  margin: 40px;
+}
+.left-show {
+  border-right: 1px solid black;
+}
+.done-choose {
+  height: 23px;
+}
+.list-choose {
+  padding-left: 20px;
+}
+.user-booking{
+  width: 350px !important;
+  margin-left: 26px;
 }

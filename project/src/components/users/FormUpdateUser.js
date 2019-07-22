@@ -1,27 +1,49 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
 import { withFirebase } from "../Firebase/context";
+import { NavLink } from "react-router-dom";
 
-class FormUpdateBook extends Component {
+class FormUpdateUser extends Component {
   constructor(props) {
     super(props);
+    // console.log(props.users);
     const book_id = this.props.match.match.params.id;
-    const books = this.props.products;
+    const books = this.props.users;
     let book = {};
     if (books.length > 0 && books) {
       book = books.find(item => item.id === String(book_id));
     }
     this.state = {
-      value: book
+      value: book,
+      data: []
     };
+    console.log(props);
   }
   handleImage = e => {
     e.preventDefault();
     if (e.target.files[0]) {
       const image = e.target.files[0];
-      console.log("imga", image);
+
       this.setState(() => ({ image }));
     }
+  };
+
+  handleChange = event => {
+    let name = event.target.name;
+    let value = event.target.value;
+
+    this.setState(prevState => ({
+      ...prevState,
+      value: {
+        ...prevState.value,
+        [name]: value
+      }
+    }));
+  };
+
+  editUser = e => {
+    e.preventDefault();
+    this.handleUpload();
+    // this.props.editUser(this.state.value.id, this.state.value);
   };
 
   handleUpload = () => {
@@ -47,7 +69,7 @@ class FormUpdateBook extends Component {
             .child(image.name)
             .getDownloadURL()
             .then(url => {
-              this.props.editBook(this.state.value.id, {
+              this.props.editUser(this.state.value.id, {
                 value: this.state.value,
                 image: url
               });
@@ -55,41 +77,21 @@ class FormUpdateBook extends Component {
         }
       );
     }
-    this.props.editBook(this.state.value.id, {
+    this.props.editUser(this.state.value.id, {
       value: this.state.value
     });
   };
 
-  handleChange = event => {
-    let name = event.target.name;
-    let value = event.target.value;
-
-    this.setState(prevState => ({
-      ...prevState,
-      value: {
-        ...prevState.value,
-        [name]: value
-      }
-    }));
-  };
-  editBook = () => {
-    this.handleUpload();
-  };
-  // editBook = () => {
-  //   this.props.editBook(this.state.value.id, this.state.value);
-  // };
-
   render() {
-    let book = this.state.value;
-    const { categories } = this.props;
-
+    console.log(this.state.value);
+    let user = this.state.value;
     return (
       <div id="page-wrapper">
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12">
               <div className="white-box">
-                <h3 className="box-title">UPDATE BOOKS</h3>
+                <h3 className="box-title">UPDATE CATEGORY</h3>
 
                 <div className="containerTable">
                   <form onSubmit={this.onSubmit} className="formAdd">
@@ -101,68 +103,73 @@ class FormUpdateBook extends Component {
                           className="form-control"
                           placeholder="Enter book's quantity"
                           name="name"
-                          defaultValue={book.name}
+                          defaultValue={user.name}
                           onChange={this.handleChange}
                         />
                       </div>
                       <div className="form-group">
-                        <label htmlFor="exampleFormControlSelect1">Type</label>
-                        <select
+                        <label htmlFor="exampleInputPassword1">AGE</label>
+                        <input
+                          type="text"
                           className="form-control"
-                          id="exampleFormControlSelect1"
-                          name="type"
-                          defaultValue={book.type}
+                          placeholder="Enter book's name"
+                          name="age"
+                          defaultValue={user.age}
                           onChange={this.handleChange}
-                        >
-                          {categories.map((item, index) => (
-                            <option key={index}>{item.name}</option>
-                          ))}
-                        </select>
+                        />
                       </div>
                       <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">QUANTITY</label>
+                        <label htmlFor="exampleInputPassword1">PHONE</label>
                         <input
-                          type="number"
+                          type="text"
                           className="form-control"
                           placeholder="Enter book's quantity"
                           name="phone"
-                          defaultValue={book.quantity}
+                          defaultValue={user.phone}
                           onChange={this.handleChange}
                         />
                       </div>
                       <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">
-                          QUANTITY REMAIN
-                        </label>
+                        <label htmlFor="exampleInputPassword1">CLASS</label>
                         <input
-                          type="number"
+                          type="text"
                           className="form-control"
-                          placeholder="Enter book's quantity remain"
-                          name="quantityRemain"
-                          defaultValue={book.quantityRemain}
+                          placeholder="Enter book's status"
+                          name="classes"
+                          defaultValue={user.classes}
                           onChange={this.handleChange}
                         />
                       </div>
+
                       <div className="form-group">
-                        <img
-                          width="60px"
-                          src={book.image}
-                          className="img-fluid"
-                          alt=""
-                        />
+                        <br />
                         <label htmlFor="exampleInputPassword1">IMAGE</label>
-                        <input
-                          type="file"
-                          className="form-control-file"
-                          name="img"
-                          onChange={this.handleImage}
-                        />
+
+                        <div class="row">
+                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <input
+                              type="file"
+                              className="form-control-file"
+                              name="img"
+                              // defaultValue={user.img}
+                              onChange={this.handleImage}
+                            />
+                          </div>
+                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <img
+                              width="100px"
+                              src={user.image}
+                              className="img-fluid"
+                              alt=""
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <NavLink to={{ pathname: "/books" }} className="link">
+                      <NavLink to={{ pathname: "/users" }} className="link">
                         <button
                           type="button"
                           className="btn btn-success"
-                          onClick={this.editBook}
+                          onClick={this.editUser}
                         >
                           UPDATE
                         </button>
@@ -178,4 +185,4 @@ class FormUpdateBook extends Component {
     );
   }
 }
-export default withFirebase(FormUpdateBook);
+export default withFirebase(FormUpdateUser);
