@@ -91,17 +91,6 @@ class Booking extends Component {
     const { resultSearchProduct } = this.state;
     if (resultSearchProduct) {
       const listProductSearch = resultSearchProduct.map((item,index) => (
-        // <tr >
-        //   <td className="list-group-item">
-        //     <input
-        //       type="radio"
-        //       name="productID"
-        //       onChange={this.handleChange}
-        //       value={item.id}
-        //     />
-        //     {item.name}      {item.type}       {item.quatity}
-        //   </td>
-        // </tr>
         <div className="col-md-4" key={index}>
         <div className="card">
           <img className="card-img-top" src={item.image} alt="Card  cap" />
@@ -129,22 +118,23 @@ class Booking extends Component {
   done = () => {
     const data = {
       products: this.state.productsChoose,
-      userId: this.state.userID
+      userID: this.state.userID,
+      createAt:  new Date().getFullYear() + '-' + (new Date().getMonth()+1) + '-' + new Date().getDate() +' '+ new Date().getHours()+':'+ new Date().getMinutes()+':'+ new Date().getSeconds()
     };
     this.props.firebase.queryBooking().push(data);
   };
 
   add = id => {
-    const { products } = this.state;
+    const { resultSearchProduct } = this.state;
     count = 0;
     if (!data.length) {
       data.push({
-        item: this.state.products[id],
+        item: this.state.resultSearchProduct[id],
         quantity: 1
       });
     } else {
       for (let i = 0; i < data.length; i++) {
-        if (data[i].item.id === products[id].id) {
+        if (data[i].item.id === resultSearchProduct[id].id) {
           count++;
           data[i].quantity += 1;
         }
@@ -152,7 +142,7 @@ class Booking extends Component {
 
       if (!count) {
         data.push({
-          item: this.state.products[id],
+          item: this.state.resultSearchProduct[id],
           quantity: 1
         });
       }
@@ -164,27 +154,11 @@ class Booking extends Component {
   };
 
   render() {
-    const productsItem = this.state.products.map((products, index) => (
-      <div className="col-md-4" key={index}>
-        <div className="card">
-          <img className="card-img-top" src={products.image} alt="Card  cap" />
-          <div className="card-body">
-            <h5 className="card-title">{products.name}</h5>
-            <p className="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <a
-              href="#sbdhjs"
-              onClick={() => this.add(index)}
-              className="btn btn-primary"
-            >
-              Add
-            </a>
-          </div>
-        </div>
-      </div>
-    ));
+  // let new Date() = new Date();
+  let date = new Date().getFullYear() + '-' + (new Date().getMonth()+1) + '-' + new Date().getDate() +' '+ new Date().getHours()+':'+ new Date().getMinutes()+':'+ new Date().getSeconds();
+  const currDate = "Current Date= "+date;
+console.log('bay gio la bao hieu', currDate);
+console.log('id', this.state.user.id)
 
     const dataSelected = this.state.productsChoose.map(
       (productsChoose, index) => {
@@ -238,9 +212,6 @@ class Booking extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div className="table-responsive">
-         {this.resultSearchProduct()}
-        </div>
         <div className="row">
           <div className="col-md-6 left-show">{this.resultSearchProduct()}</div>
           <div className="col-md-6">
@@ -252,19 +223,8 @@ class Booking extends Component {
             </div>
           </div>
         </div>
-        {/* <div className="row">
-          <div className="col-md-6 left-show">{productsItem}</div>
-          <div className="col-md-6">
-            {dataSelected}
-            <div className="done-choose">
-              <button onClick={() => this.done()} className="btn btn-success">
-                Done
-              </button>
-            </div>
-          </div>
-        </div> */}
         <div className="row list-choose">
-          <ShowBooking />
+          {/* <ShowBooking /> */}
         </div>
       </div>
     );

@@ -19,6 +19,7 @@ import UserList from './components/users/UserList';
 import FormAddUser from './components/users/FormAddUser';
 import FormUpdateUser from './components/users/FormUpdateUser';
 import Booking from './components/booking/Booking';
+import Borrowing from './components/booking/Borrowing';
 
 class App extends React.Component {
   constructor(props) {
@@ -166,6 +167,7 @@ class App extends React.Component {
               )}
             />
             <Route path="/booking" component={() => <Booking users={users} />} />
+            <Route path="/borrowing" component={() => <Borrowing users={users} />} />
           </Switch>
 
           <Route

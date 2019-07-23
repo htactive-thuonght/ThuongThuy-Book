@@ -41,6 +41,12 @@ class LeftMenu extends React.Component {
                 <span className="hide-menu">BOOKING</span>
               </NavLink>
             </li>
+            <li>
+              <NavLink to={{ pathname: "/borrowing" }} className="link">
+                <i className="fa fa-cart-plus fa-fw" aria-hidden="true" />
+                <span className="hide-menu">BORROWING</span>
+              </NavLink>
+            </li>
           </ul>
         </div>
       </div>

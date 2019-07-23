@@ -50,7 +50,7 @@ class ShowBooking extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.booking.map((item, index) => {
+                    {this.state.booking.map((item, index) => { 
                       return (
                         <tr key={index}>
                           <th scope="row">{index + 1}</th>
@@ -65,6 +65,7 @@ class ShowBooking extends Component {
                                     src={product.item.image}
                                   />
                                 </td>
+                                <td>{product.quantity}</td>
                               </tr>
                             );
                           })}
