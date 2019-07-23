@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase/context";
-import ShowBorrow from "./ShowBorrow";
-
-// const data = [];
-// let count = 0;
+import { Link } from "react-router-dom";
 
 class Borrow extends Component {
   constructor(props) {
     super(props);
-    // console.log(props.users);
     this.state = {
       products: [],
       productsChoose: [],
@@ -55,30 +51,31 @@ class Borrow extends Component {
     }
   };
 
-  // resultSearchProduct = () => {
-  //   const { resultSearchProduct } = this.state;
-  //   if (resultSearchProduct) {
-  //     const listProductSearch = resultSearchProduct.map((item, index) => (
-
-  //           <tbody>
-  //             <tr>
-  //               {items.map((item, index) => {
-  //                 return (
-  //                   <>
-  //                     <td key={index + 1}>{index + 1}</td>
-  //                     <td key={item.id}>{item.id}</td>
-  //                     <td key={index}>{item.name}</td>
-  //                   </>
-  //                 );
-  //               })}
-  //             </tr>
-  //           </tbody>
-
-  //       </div>
-  //     ));
-  //     return listProductSearch;
-  //   }
-  // };
+  resultSearchProduct = () => {
+    const { resultSearchProduct } = this.state;
+    if (resultSearchProduct) {
+      const listProductSearch = resultSearchProduct.map((item, index) => (
+        <tr key={index}>
+          <td>{index + 1}</td>
+          <td>{item.id}</td>
+          <td>{item.name}</td>
+          <td>1</td>
+          <td>
+            <img src={item.image} width="50px" alt="" />
+          </td>
+          <td>
+            <Link
+              className="link"
+              to={`/borrow/${this.props.match.match.params.id}/${item.id}`}
+            >
+              Add
+            </Link>
+          </td>
+        </tr>
+      ));
+      return listProductSearch;
+    }
+  };
 
   render() {
     return (
@@ -92,7 +89,7 @@ class Borrow extends Component {
             <form role="search" className="app-search hidden-xs">
               <input
                 type="text"
-                placeholder="Search book..."
+                placeholder="Search Books .........."
                 className="form-control"
                 onKeyPress={this.searchProduct}
                 onChange={this.handleChange}
@@ -104,17 +101,28 @@ class Borrow extends Component {
             </div>
           </div>
 
-          {/* <div className="row">
+          <div className="row">
             <div className="col-sm-12">
               <div className="white-box">
                 <h3 className="box-title">Basic Table</h3>
-                <ShowBorrow
-                  id={this.props.match.match.params.id}
-                  users={this.props.users}
-                />
+                <div className="table-responsive">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Book ID</th>
+                        <th>Book Name</th>
+                        <th>Quatity</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>{this.resultSearchProduct()}</tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
 
         <footer className="footer text-center">

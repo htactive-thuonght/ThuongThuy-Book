@@ -32,6 +32,7 @@ class firebase {
   users = () => this.db.ref("users");
 
   queryBooking = index => this.db.ref(`booking/`);
+  // booking = () => this.db.ref("booking");
 }
 
 export default firebase;

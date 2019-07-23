@@ -6,8 +6,6 @@ class Booking extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: [],
-      productsChoose: [],
       booking: []
     };
   }

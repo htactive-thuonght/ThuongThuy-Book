@@ -140,8 +140,8 @@ class FormUpdateBook extends Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="exampleInputPassword1">IMAGE</label>
-                  <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                  <div className="row">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                       <input
                         type="file"
                         className="form-control-file"
@@ -150,7 +150,7 @@ class FormUpdateBook extends Component {
                         onChange={this.handleImage}
                       />
                     </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                       <img
                         width="100px"
                         src={book.image}

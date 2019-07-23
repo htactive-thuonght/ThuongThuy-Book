@@ -22,6 +22,7 @@ import FormUpdateUser from "./components/users/FormUpdateUser";
 import Booking from "./components/booking/Booking";
 import Pay from "./components/booking/Pay";
 import Borrow from "./components/booking/Borrow";
+import ShowBorrow from "./components/booking/ShowBorrow";
 
 class App extends React.Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class App extends React.Component {
       case "users": {
         return this.props.firebase.users(index);
       }
+
       default: {
         return "";
       }
@@ -179,6 +181,13 @@ class App extends React.Component {
               path="/borrow/:id"
               component={match => (
                 <Borrow users={users} match={match} products={products} />
+              )}
+            />
+            <Route
+              exact
+              path="/borrow/:id/:id"
+              component={match => (
+                <ShowBorrow users={users} match={match} products={products} />
               )}
             />
             <Route path="/pay" component={() => <Pay />} />
