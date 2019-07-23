@@ -37,77 +37,60 @@ class Booking extends Component {
             </div>
             {/* /.col-lg-12 */}
           </div>
-          {/* /row */}
           <div className="row">
             <div className="col-sm-12">
               <div className="white-box">
-                <h3 className="box-title">Basic Table</h3>
-                <p className="text-muted">
-                  Add class <code>.table</code>
-                </p>
+                <h3 className="box-title">User Table</h3>
+
                 <div className="table-responsive">
                   <table className="table">
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
-                        <th>Role</th>
+                        <th>NAME </th>
+                        <th>AGE </th>
+                        <th>PHONE </th>
+                        <th>CLASS </th>
+                        <th>IMAGE </th>
+                        <th>ACTIONS</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Deshmukh</td>
-                        <td>Prohaska</td>
-                        <td>@Genelia</td>
-                        <td>admin</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Deshmukh</td>
-                        <td>Gaylord</td>
-                        <td>@Ritesh</td>
-                        <td>member</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Sanghani</td>
-                        <td>Gusikowski</td>
-                        <td>@Govinda</td>
-                        <td>developer</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Roshan</td>
-                        <td>Rogahn</td>
-                        <td>@Hritik</td>
-                        <td>supporter</td>
-                      </tr>
-                      <tr>
-                        <td>5</td>
-                        <td>Joshi</td>
-                        <td>Hickle</td>
-                        <td>@Maruti</td>
-                        <td>member</td>
-                      </tr>
-                      <tr>
-                        <td>6</td>
-                        <td>Nigam</td>
-                        <td>Eichmann</td>
-                        <td>@Sonu</td>
-                        <td>supporter</td>
-                      </tr>
+                      {this.props.users.map((item, index) => {
+                        return (
+                          <tr key={index}>
+                            <th scope="row">{index + 1}</th>
+                            <td>{item.name}</td>
+                            <td>{item.age}</td>
+                            <td>{item.phone}</td>
+                            <td>{item.classes}</td>
+                            <td>
+                              <img
+                                src={item.image}
+                                style={{ width: "50px", height: "50px" }}
+                                alt=""
+                              />
+                            </td>
+                            <td className="link">
+                              <Link className="link" to={`/borrow/${item.id}`}>
+                                Borrow
+                              </Link>
+                              &ensp;
+                              <Link className="link" to={`/pay/${item.id}`}>
+                                Pay
+                              </Link>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
-          {/* /.row */}
         </div>
-        {/* /.container-fluid */}
+
         <footer className="footer text-center">
           {" "}
           2017 © Pixel Admin brought to you by wrappixel.com{" "}

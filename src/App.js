@@ -168,10 +168,19 @@ class App extends React.Component {
                 />
               )}
             />
-            <Route path="/booking" component={() => <Booking />} />
+            <Route
+              path="/booking"
+              component={() => <Booking users={users} />}
+            />
           </Switch>
           <Switch>
-            <Route exact path="/borrow" component={() => <Borrow />} />
+            <Route
+              exact
+              path="/borrow/:id"
+              component={match => (
+                <Borrow users={users} match={match} products={products} />
+              )}
+            />
             <Route path="/pay" component={() => <Pay />} />
           </Switch>
           <Route
