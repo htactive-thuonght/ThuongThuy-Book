@@ -14,9 +14,9 @@ class Header extends Component {
           <div className="navbar-header">
             {' '}
             <div className="top-left-part">
-              <a className="logo" href="/">
+              <div className="logo" href="/">
                 Thuy Thuong
-              </a>
+              </div>
             </div>
           </div>
         </nav>

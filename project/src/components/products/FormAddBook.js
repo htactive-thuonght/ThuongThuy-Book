@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase/context";
+import { NavLink } from "react-router-dom";
 
 class FormAddBook extends Component {
   constructor(props) {
     super(props);
     console.log(props.categories);
     this.state = {
-      //   show: false,
       data: []
     };
   }
@@ -61,7 +61,6 @@ class FormAddBook extends Component {
   render() {
     const { name, type, quantity, image, quantityRemain } = this.state;
     const { categories } = this.props;
-    //let { show } = this.state;
     return (
       <div id="page-wrapper">
         <div className="container-fluid">
@@ -142,13 +141,16 @@ class FormAddBook extends Component {
 
               <div className="form-group">
                 <div className="col-sm-12">
-                  <button
+                <NavLink to={{ pathname: "/books" }} className="link">
+                <button
                     type="button"
                     className="btn btn-success"
                     onClick={this.addBook}
                   >
                     ADD
                   </button>
+                      </NavLink>
+                  
                 </div>
               </div>
             </form>

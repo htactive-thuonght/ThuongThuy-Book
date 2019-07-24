@@ -32,7 +32,9 @@ class firebase {
   users = () => this.db.ref('users');
 
   queryBooking = index => this.db.ref(`booking/`);
-  queryBorrowing = index => this.db.ref(`borrowing/`);
+  booking = index => this.db.ref(`booking/${index}`);
+
+  queryPay = index => this.db.ref(`paying/`);
 }
 
 export default firebase;

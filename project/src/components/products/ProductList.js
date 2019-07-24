@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 export default class ProductList extends Component {
   deleteBook = id => {
     this.props.deleteBook(id);
@@ -10,12 +10,12 @@ export default class ProductList extends Component {
         <div className="container-fluid">
           <div className="row bg-title">
             <div className="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-              <h4 className="page-title">Basic Table</h4>{' '}
+              <h4 className="page-title">Basic Table</h4>{" "}
             </div>
             <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-              {' '}
+              {" "}
               <NavLink
-                to={{ pathname: '/addBook' }}
+                to={{ pathname: "/addBook" }}
                 className="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
               >
                 Add
@@ -55,18 +55,17 @@ export default class ProductList extends Component {
                             <td>
                               <img
                                 src={item.image}
-                                style={{ width: '50px', height: '50px' }}
+                                style={{ width: "50px", height: "50px" }}
                                 alt=""
                               />
                             </td>
                             <td>
-                              <i
-                                className="fa fa-trash"
-                                onClick={() => this.deleteBook(item.id)}
-                              />
+                              <NavLink onClick={() => this.deleteBook(item.id)}>
+                                Delete
+                              </NavLink>
                               &ensp;
                               <NavLink to={`/updateBook/${item.id}`}>
-                                <i className="fa fa-pencil" />
+                                Update
                               </NavLink>
                             </td>
                           </tr>
@@ -82,8 +81,8 @@ export default class ProductList extends Component {
         </div>
         {/* /.container-fluid */}
         <footer className="footer text-center">
-          {' '}
-          thuongthuy@gmail.com || (+84) 856 244 358{' '}
+          {" "}
+          thuongthuy@gmail.com || (+84) 856 244 358{" "}
         </footer>
       </div>
     );

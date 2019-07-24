@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { NavLink } from "react-router-dom";
 export default class FormAddCategories extends Component {
   constructor(props) {
     super(props);
@@ -41,7 +41,7 @@ export default class FormAddCategories extends Component {
                         onChange={this.handleChange}
                       />
                     </div>
-
+                    <NavLink to={{ pathname: "/categories" }} className="link">
                     <button
                       type="button"
                       className="btn btn-success"
@@ -49,6 +49,8 @@ export default class FormAddCategories extends Component {
                     >
                       ADD
                     </button>
+                      </NavLink>
+                    
                   </form>
                 </div>
               </div>

@@ -1,25 +1,26 @@
-import React from 'react';
-import Header from './components/layout/Header';
-import LeftMenu from './components/layout/LeftMenu';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from './pages/Home';
-import { withFirebase } from './components/Firebase/context';
+import React from "react";
+import Header from "./components/layout/Header";
+import LeftMenu from "./components/layout/LeftMenu";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./pages/Home";
+import { withFirebase } from "./components/Firebase/context";
 
-import './App.css';
+import "./App.css";
+import ProductList from "./components/products/ProductList";
+import FormAddBook from "./components/products/FormAddBook";
+import FormUpdateBook from "./components/products/FormUpdateBook";
 
-import ProductList from './components/products/ProductList';
-import FormAddBook from './components/products/FormAddBook';
-import FormUpdateBook from './components/products/FormUpdateBook';
+import CategoriesList from "./components/categories/CategoriesList";
+import FormAddCategories from "./components/categories/FormAddCategories";
+import FormUpdateCate from "./components/categories/FormUpdateCate";
 
-import CategoriesList from './components/categories/CategoriesList';
-import FormAddCategories from './components/categories/FormAddCategories';
-import FormUpdateCate from './components/categories/FormUpdateCate';
-
-import UserList from './components/users/UserList';
-import FormAddUser from './components/users/FormAddUser';
-import FormUpdateUser from './components/users/FormUpdateUser';
-import Booking from './components/booking/Booking';
-import Borrowing from './components/booking/Borrowing';
+import UserList from "./components/users/UserList";
+import FormAddUser from "./components/users/FormAddUser";
+import FormUpdateUser from "./components/users/FormUpdateUser";
+import Booking from "./components/booking/Booking";
+import Borrow from "./components/booking/Borrow";
+import Pay from "./components/booking/Pay";
+import ShowDetailBook from "./components/booking/ShowDetailBook";
 
 class App extends React.Component {
   constructor(props) {
@@ -33,24 +34,24 @@ class App extends React.Component {
 
   getTableCall(table, index) {
     switch (table) {
-      case 'categories': {
+      case "categories": {
         return this.props.firebase.getCategories(index);
       }
-      case 'products': {
+      case "products": {
         return this.props.firebase.books(index);
       }
-      case 'users': {
+      case "users": {
         return this.props.firebase.users(index);
       }
       default: {
-        return '';
+        return "";
       }
     }
   }
 
   getData = table => {
     let tableCall = this.getTableCall(table);
-    tableCall.on('value', snapshot => {
+    tableCall.on("value", snapshot => {
       const object = snapshot.val();
       if (object) {
         const objectList = Object.keys(object).map(key => ({
@@ -69,15 +70,15 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.getData('categories');
-    this.getData('products');
-    this.getData('users');
+    this.getData("categories");
+    this.getData("products");
+    this.getData("users");
   }
 
   addCategory = name => {
     this.props.firebase.getCategories().push({ name });
     this.setState({
-      name: ''
+      name: ""
     });
   };
 
@@ -101,7 +102,6 @@ class App extends React.Component {
   };
 
   editUser = (index, data) => {
-    // console.log("object", data);
     const { image, value } = data;
     this.props.firebase.queryUsers(index).set({
       image: image || value.image,
@@ -113,7 +113,6 @@ class App extends React.Component {
   };
 
   addBook = book => {
-    // console.log(book);
     const { name, type, quantity, quantityRemain, image } = book;
     this.props.firebase
       .books()
@@ -125,7 +124,7 @@ class App extends React.Component {
   };
 
   editBook = (index, data) => {
-    console.log('object', data);
+    console.log("object", data);
     const { image, value } = data;
     this.props.firebase.queryBooks(index).set({
       image: image || value.image,
@@ -166,10 +165,17 @@ class App extends React.Component {
                 />
               )}
             />
-            <Route path="/booking" component={() => <Booking users={users} />} />
-            <Route path="/borrowing" component={() => <Borrowing users={users} />} />
+            <Route path="/booking" component={() => <Booking />} />
           </Switch>
+          <Switch>
+            <Route path="/borrow" component={() => <Borrow users={users} />} />
 
+            <Route path="/pay" component={() => <Pay users={users} />} />
+          </Switch>
+          <Route
+            path="/detailBook/:id"
+            component={match => <ShowDetailBook match={match} users={users} />}
+          />
           <Route
             path="/addBook"
             component={() => (

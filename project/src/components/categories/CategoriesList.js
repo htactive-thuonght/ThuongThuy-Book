@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 export default class CategoriesList extends Component {
   deleteCategory = id => {
     this.props.deleteCategory(id);
@@ -10,12 +10,12 @@ export default class CategoriesList extends Component {
         <div className="container-fluid">
           <div className="row bg-title">
             <div className="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-              <h4 className="page-title">Basic Table</h4>{' '}
+              <h4 className="page-title">Basic Table</h4>{" "}
             </div>
             <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-              {' '}
+              {" "}
               <NavLink
-                to={{ pathname: '/addCategory' }}
+                to={{ pathname: "/addCategory" }}
                 className="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
               >
                 Add
@@ -47,13 +47,14 @@ export default class CategoriesList extends Component {
                             <td>{item.name}</td>
 
                             <td>
-                              <i
-                                className="fa fa-trash"
+                              <NavLink
                                 onClick={() => this.deleteCategory(item.id)}
-                              />
+                              >
+                                Delete
+                              </NavLink>
                               &ensp;
                               <NavLink to={`/updateCategory/${item.id}`}>
-                                <i className="fa fa-pencil" />
+                                Update
                               </NavLink>
                             </td>
                           </tr>
@@ -67,8 +68,8 @@ export default class CategoriesList extends Component {
           </div>
         </div>
         <footer className="footer text-center">
-          {' '}
-          thuongthuy@gmail.com || (+84) 856 244 358{' '}
+          {" "}
+          thuongthuy@gmail.com || (+84) 856 244 358{" "}
         </footer>
       </div>
     );

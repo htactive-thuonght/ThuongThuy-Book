@@ -1,5 +1,6 @@
 import React from "react";
 import { withFirebase } from "../Firebase/context";
+import { NavLink } from "react-router-dom";
 
 class FormAddUser extends React.Component {
   constructor(props) {
@@ -63,7 +64,6 @@ class FormAddUser extends React.Component {
 
   render() {
     const { name, age, image, classes, phone } = this.state;
-    //let { show } = this.state;
     return (
       <div id="page-wrapper">
         <div className="container-fluid">
@@ -133,6 +133,7 @@ class FormAddUser extends React.Component {
                         onChange={this.handleImage}
                       />
                     </div>
+                    <NavLink to={{ pathname: "/users" }} className="link">
                     <button
                       type="button"
                       className="btn btn-success"
@@ -140,6 +141,8 @@ class FormAddUser extends React.Component {
                     >
                       ADD
                     </button>
+                      </NavLink>
+                   
                   </form>
                 </div>
               </div>

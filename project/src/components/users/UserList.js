@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 export default class UserList extends Component {
   deleteUser = id => {
     this.props.deleteUser(id);
@@ -10,12 +10,12 @@ export default class UserList extends Component {
         <div className="container-fluid">
           <div className="row bg-title">
             <div className="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-              <h4 className="page-title">Basic Table</h4>{' '}
+              <h4 className="page-title">Basic Table</h4>{" "}
             </div>
             <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-              {' '}
+              {" "}
               <NavLink
-                to={{ pathname: '/addUser' }}
+                to={{ pathname: "/addUser" }}
                 className="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
               >
                 Add
@@ -51,22 +51,21 @@ export default class UserList extends Component {
                             <td>{item.name}</td>
                             <td>{item.age}</td>
                             <td>{item.phone}</td>
-                            <td>{item.class}</td>
+                            <td>{item.classes}</td>
                             <td>
                               <img
-                                src={item.img}
-                                style={{ width: '50px', height: '50px' }}
+                                src={item.image}
+                                style={{ width: "50px", height: "50px" }}
                                 alt=""
                               />
                             </td>
                             <td>
-                              <i
-                                className="fa fa-trash"
-                                onClick={() => this.deleteUser(item.id)}
-                              />
+                              <NavLink onClick={() => this.deleteUser(item.id)}>
+                                Delete
+                              </NavLink>
                               &ensp;
                               <NavLink to={`/updateUser/${item.id}`}>
-                                <i className="fa fa-pencil" />
+                                Update
                               </NavLink>
                             </td>
                           </tr>
@@ -81,8 +80,8 @@ export default class UserList extends Component {
         </div>
 
         <footer className="footer text-center">
-          {' '}
-          thuongthuy@gmail.com || (+84) 856 244 358{' '}
+          {" "}
+          thuongthuy@gmail.com || (+84) 856 244 358{" "}
         </footer>
       </div>
     );

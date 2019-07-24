@@ -75,10 +75,6 @@ class FormUpdateBook extends Component {
   editBook = () => {
     this.handleUpload();
   };
-  // editBook = () => {
-  //   this.props.editBook(this.state.value.id, this.state.value);
-  // };
-
   render() {
     let book = this.state.value;
     const { categories } = this.props;

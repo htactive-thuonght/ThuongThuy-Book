@@ -12,10 +12,11 @@ class LeftMenu extends React.Component {
         <div className="sidebar-nav navbar-collapse slimscrollsidebar">
           <ul className="nav" id="side-menu">
             <li style={{ padding: "10px 0 0" }}>
-              <a href="/" className="waves-effect">
+              
+              <NavLink to={{ pathname: "/" }} className="link">
                 <i className="fa fa-clock-o fa-fw" aria-hidden="true" />
-                <span className="hide-menu">Dashboard</span>
-              </a>
+                <span className="hide-menu">HOME</span>
+              </NavLink>
             </li>
             <li>
               <NavLink to={{ pathname: "/users" }} className="link">
@@ -39,12 +40,6 @@ class LeftMenu extends React.Component {
               <NavLink to={{ pathname: "/booking" }} className="link">
                 <i className="fa fa-cart-plus fa-fw" aria-hidden="true" />
                 <span className="hide-menu">BOOKING</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to={{ pathname: "/borrowing" }} className="link">
-                <i className="fa fa-cart-plus fa-fw" aria-hidden="true" />
-                <span className="hide-menu">BORROWING</span>
               </NavLink>
             </li>
           </ul>

@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 class FormUpdateUser extends Component {
   constructor(props) {
     super(props);
-    // console.log(props.users);
     const book_id = this.props.match.match.params.id;
     const books = this.props.users;
     let book = {};
@@ -43,7 +42,6 @@ class FormUpdateUser extends Component {
   editUser = e => {
     e.preventDefault();
     this.handleUpload();
-    // this.props.editUser(this.state.value.id, this.state.value);
   };
 
   handleUpload = () => {
