@@ -57,7 +57,7 @@ export default class UserList extends Component {
                               />
                             </td>
                             <td className="link">
-                              <p onClick={() => this.deleteBook(item.id)}>
+                              <p onClick={() => this.deleteUser(item.id)}>
                                 Xóa
                               </p>
                               &ensp;

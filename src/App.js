@@ -23,6 +23,7 @@ import Booking from "./components/booking/Booking";
 import Pay from "./components/booking/Pay";
 import Borrow from "./components/booking/Borrow";
 import ShowBorrow from "./components/booking/ShowBorrow";
+import ShowDetail from "./components/booking/ShowDetail";
 
 class App extends React.Component {
   constructor(props) {
@@ -178,7 +179,7 @@ class App extends React.Component {
           <Switch>
             <Route
               exact
-              path="/borrow/:id"
+              path="/borrow/"
               component={match => (
                 <Borrow users={users} match={match} products={products} />
               )}
@@ -211,6 +212,12 @@ class App extends React.Component {
                 editBook={this.editBook}
                 match={match}
               />
+            )}
+          />
+          <Route
+            path="/detailBook/:id"
+            component={match => (
+              <ShowDetail users={users} match={match} products={products} />
             )}
           />
           <Route

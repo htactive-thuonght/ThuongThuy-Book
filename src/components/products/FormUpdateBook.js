@@ -166,7 +166,7 @@ class FormUpdateBook extends Component {
                     <button
                       type="button"
                       className="btn btn-success"
-                      onClick={this.editUser}
+                      onClick={this.editBook}
                     >
                       UPDATE
                     </button>

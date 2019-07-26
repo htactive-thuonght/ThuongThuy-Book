@@ -184,7 +184,7 @@ class FormAddBook extends Component {
               <div className="form-group">
                 <div className="col-sm-12">
                   <button
-                    type="button"
+                    id="buttonDF"
                     className="btn btn-success"
                     onClick={this.addBook}
                   >
