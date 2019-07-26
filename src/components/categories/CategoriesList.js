@@ -15,7 +15,7 @@ export default class CategoriesList extends Component {
             <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12">
               <NavLink
                 to={{ pathname: "/addCategory" }}
-                className="btn btn-danger pull-right "
+                className="btn btn-success buttonDF pull-right"
               >
                 ADD
               </NavLink>
@@ -44,9 +44,12 @@ export default class CategoriesList extends Component {
                             <td>{item.name}</td>
 
                             <td className="link">
-                              <p onClick={() => this.deleteCategory(item.id)}>
+                              <Link
+                                to=""
+                                onClick={() => this.deleteCategory(item.id)}
+                              >
                                 Xóa
-                              </p>
+                              </Link>
                               &ensp;
                               <Link
                                 className="link"

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Swal from "sweetalert2";
 
 export default class FormAddCategories extends Component {
   constructor(props) {
@@ -45,6 +46,11 @@ export default class FormAddCategories extends Component {
   addCategory = () => {
     if (this.checkError()) {
       this.props.addCategory(this.state.name);
+      Swal.fire({
+        title: "Success",
+        text: "Do you want to continue",
+        type: "success"
+      });
     }
   };
 
@@ -62,9 +68,9 @@ export default class FormAddCategories extends Component {
           <div className="white-box">
             <form className="form-horizontal form-material">
               {errors.map(error => (
-                <p className="errors" key={error}>
+                <span className="label label-danger" key={error}>
                   Error: {error}
-                </p>
+                </span>
               ))}
               <div className="form-group">
                 <label htmlFor="exampleInputPassword1">Name</label>
@@ -83,7 +89,7 @@ export default class FormAddCategories extends Component {
                 <div className="col-sm-12">
                   <button
                     type="button"
-                    className="btn btn-success"
+                    className="btn btn-success buttonDF"
                     onClick={this.addCategory}
                   >
                     ADD

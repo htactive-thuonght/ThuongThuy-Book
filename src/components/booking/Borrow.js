@@ -13,7 +13,8 @@ class Borrow extends Component {
       booking: [],
       user: [],
       userID: "",
-      valueSearch: "",
+      valueUser: "",
+      valueBook: "",
       resultSearchProduct: [],
       productID: ""
     };
@@ -85,31 +86,32 @@ class Borrow extends Component {
     }
   };
 
-  resultSearchProduct = () => {
-    const { resultSearchProduct } = this.state;
-    if (resultSearchProduct) {
-      const listProductSearch = resultSearchProduct.map((item, index) => (
-        <tr key={index}>
-          <td>{index + 1}</td>
-          <td>{item.id}</td>
-          <td>{item.name}</td>
-          <td>1</td>
-          <td>
-            <img src={item.image} width="50px" alt="" />
-          </td>
-          <td>
-            <a
-              href="#sbdhjs"
-              onClick={() => this.add(index)}
-              className="btn btn-primary"
-            >
-              Add
-            </a>
-          </td>
-        </tr>
-      ));
-      return listProductSearch;
+  showListBook = () => {
+    let { resultSearchProduct } = this.state;
+    let listProduct = "";
+    if (resultSearchProduct.length > 0) {
+      listProduct = resultSearchProduct;
     }
+    listProduct = resultSearchProduct.map((item, index) => (
+      <tr key={index}>
+        <td>{index + 1}</td>
+        <td>{item.id}</td>
+        <td>{item.name}</td>
+        <td>1</td>
+        <td>
+          <img src={item.image} width="50px" alt="" />
+        </td>
+        <td>
+          <button
+            onClick={() => this.add(index)}
+            className="btn btn-success buttonDF"
+          >
+            Add
+          </button>
+        </td>
+      </tr>
+    ));
+    return listProduct;
   };
   add = id => {
     const { resultSearchProduct } = this.state;
@@ -140,6 +142,11 @@ class Borrow extends Component {
     });
   };
 
+  onSubmit = event => {
+    event.preventDefault();
+    console.log("object");
+  };
+
   resultAdd = () => {
     const { selectItem } = this.state.productsChoose;
     if (selectItem) {
@@ -153,13 +160,9 @@ class Borrow extends Component {
             <img src={item.image} width="50px" alt="" />
           </td>
           <td>
-            <a
-              href="#sbdhjs"
-              onClick={() => this.add(index)}
-              className="btn btn-primary"
-            >
+            <button onClick={() => this.add(index)} className="btn btn-primary">
               Add
-            </a>
+            </button>
           </td>
         </tr>
       ));
@@ -177,6 +180,7 @@ class Borrow extends Component {
     const data = {
       products: this.state.productsChoose,
       userID: this.state.userID,
+      status: "borrowed",
       createAt:
         new Date().getFullYear() +
         "-" +
@@ -210,7 +214,7 @@ class Borrow extends Component {
             </td>
             <td>
               <button
-                className="btn btn-success"
+                className="btn btn-danger"
                 onClick={() => this.remove(index)}
               >
                 Remove
@@ -221,6 +225,8 @@ class Borrow extends Component {
       }
     );
 
+    let { resultSearchProduct } = this.state;
+
     return (
       <div id="page-wrapper">
         <div className="container-fluid">
@@ -229,17 +235,24 @@ class Borrow extends Component {
               <h4 className="page-title">Basic Table</h4>
             </div>
 
-            <div className="row">
+            <form onSubmit={this.onSubmit} className="row">
               <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <form role="search" className="app-search hidden-xs">
-                  <input
-                    type="text"
-                    placeholder="Search Users .........."
-                    className="form-control"
-                    onKeyPress={this.searchUser}
-                    onChange={this.handleChange}
-                  />
-                </form>
+                <div className="app-search =">
+                  <form className="form-inline md-form form-sm active-pink active-pink-2 mt-2">
+                    <i className="fa fa-search" aria-hidden="true" />
+                    {/* <label>User</label> */}
+                    <input
+                      className="form-control form-control-sm ml-3 w-75"
+                      name="valueBook"
+                      style={{ marginTop: "0px" }}
+                      type="text"
+                      placeholder="Search Books .........."
+                      onKeyPress={this.searchUser}
+                      onChange={this.handleChange}
+                      // aria-label="Search"
+                    />
+                  </form>
+                </div>
 
                 <div className="table-responsive">
                   <ul className="list-group">{this.showListUser()}</ul>
@@ -247,71 +260,81 @@ class Borrow extends Component {
               </div>
 
               <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <form role="search" className="app-search hidden-xs">
-                  <input
-                    type="text"
-                    placeholder="Search Books .........."
-                    className="form-control"
-                    onKeyPress={this.searchProduct}
-                    onChange={this.handleChange}
-                  />
-                </form>
+                <div className="app-search">
+                  <form className="md-form active-cyan active-cyan-2 mb-3">
+                    <i className="fa fa-search" aria-hidden="true" />
+                    <input
+                      style={{ marginTop: "0px" }}
+                      className="form-control form-control-sm ml-3 w-75"
+                      name="valueBook"
+                      type="text"
+                      placeholder="Search Books .........."
+                      onKeyPress={this.searchProduct}
+                      onChange={this.handleChange}
+                      aria-label="Search"
+                    />
+                  </form>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
 
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="white-box">
-                <div className="table-responsive">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Book ID</th>
-                        <th>Book Name</th>
-                        <th>Quatity</th>
-                        <th>Image</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>{this.resultSearchProduct()}</tbody>
-                  </table>
+          {resultSearchProduct.length > 0 && (
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="white-box">
+                  <div className="table-responsive">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Book ID</th>
+                          <th>Book Name</th>
+                          <th>Quatity</th>
+                          <th>Image</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>{this.showListBook()}</tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="white-box">
-                <div className="table-responsive">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Book ID</th>
-                        <th>Book Name</th>
-                        <th>Quatity</th>
-                        <th>Image</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>{dataSelected}</tbody>
-                  </table>
-                  <Link to={{ pathname: "/booking" }}>
-                    <button
-                      id="buttonDF"
-                      className="btn btn-success"
-                      onClick={() => this.doneBooking()}
-                      style={{ marginLeft: "45%" }}
-                    >
-                      Done
-                    </button>
-                  </Link>
+          )}
+          {dataSelected.length > 0 && (
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="white-box">
+                  <div className="table-responsive">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Book ID</th>
+                          <th>Book Name</th>
+                          <th>Quatity</th>
+                          <th>Image</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>{dataSelected}</tbody>
+                    </table>
+                    <Link to={{ pathname: "/booking" }}>
+                      <button
+                        id="buttonDF"
+                        className="btn btn-success buttonDF"
+                        onClick={() => this.doneBooking()}
+                        style={{ marginLeft: "45%" }}
+                      >
+                        Done
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     );

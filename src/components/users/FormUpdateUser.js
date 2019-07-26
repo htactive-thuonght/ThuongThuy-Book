@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase/context";
-import { NavLink } from "react-router-dom";
+import Swal from "sweetalert2";
 
 class FormUpdateUser extends Component {
   constructor(props) {
     super(props);
-    // console.log(props.users);
     const book_id = this.props.match.match.params.id;
     const books = this.props.users;
     let book = {};
@@ -14,7 +13,8 @@ class FormUpdateUser extends Component {
     }
     this.state = {
       value: book,
-      data: []
+      data: [],
+      arrClass: ["PNV20A", "PNV20B", "PNV19A", "PNV19B", "PNV21A", "PNV21B"]
     };
     console.log(props);
   }
@@ -43,7 +43,11 @@ class FormUpdateUser extends Component {
   editUser = e => {
     e.preventDefault();
     this.handleUpload();
-    // this.props.editUser(this.state.value.id, this.state.value);
+    Swal.fire({
+      title: "Success",
+      text: "Do you want to continue",
+      type: "success"
+    });
   };
 
   handleUpload = () => {
@@ -83,108 +87,108 @@ class FormUpdateUser extends Component {
   };
 
   render() {
-    // console.log(this.state.value);
     let user = this.state.value;
+    const classes = this.state.arrClass;
+
     return (
-      <form id="page-wrapper">
-        <form className="container-fluid">
-          <form className="row">
-            <form className="col-md-12">
-              <form className="white-box">
-                <h3 className="box-title">UPDATE CATEGORY</h3>
+      <div id="page-wrapper">
+        <div className="container-fluid">
+          <div className="row bg-title">
+            <div className="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+              <h4 className="page-title">Basic Table</h4>{" "}
+            </div>
+            <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12"> </div>
+          </div>
+          <div className="white-box">
+            <form className="form-horizontal form-material">
+              <div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">NAME</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter book's quantity"
+                    name="name"
+                    defaultValue={user.name}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">AGE</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Enter book's quantity"
+                    name="phone"
+                    defaultValue={user.age}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">PHONE</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter book's quantity"
+                    name="phone"
+                    defaultValue={user.phone}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleFormControlSelect1">CLASS</label>
+                  <select
+                    className="form-control"
+                    id="exampleFormControlSelect1"
+                    name="type"
+                    defaultValue={user.classes}
+                    onChange={this.handleChange}
+                  >
+                    {classes.map((item, index) => (
+                      <option key={index}>{item}</option>
+                    ))}
+                  </select>
+                </div>
 
-                <form className="containerTable">
-                  <form onSubmit={this.onSubmit} className="formAdd">
-                    <div>
-                      <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">NAME</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter book's quantity"
-                          name="name"
-                          defaultValue={user.name}
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">AGE</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter book's name"
-                          name="age"
-                          defaultValue={user.age}
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">PHONE</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter book's quantity"
-                          name="phone"
-                          defaultValue={user.phone}
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">CLASS</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter book's status"
-                          name="classes"
-                          defaultValue={user.classes}
-                          onChange={this.handleChange}
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <br />
-                        <label htmlFor="exampleInputPassword1">IMAGE</label>
-
-                        <div class="row">
-                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <input
-                              type="file"
-                              className="form-control-file"
-                              name="img"
-                              // defaultValue={user.img}
-                              onChange={this.handleImage}
-                            />
-                          </div>
-                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <img
-                              width="100px"
-                              src={user.image}
-                              className="img-fluid"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="form-group">
-                        <div className="col-sm-12">
-                          <button
-                            type="button"
-                            className="btn btn-success"
-                            onClick={this.editUser}
-                          >
-                            UPDATE
-                          </button>
-                        </div>
-                      </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">IMAGE</label>
+                  <div className="row">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                      <input
+                        type="file"
+                        className="form-control-file"
+                        name="img"
+                        // defaultValue={user.img}
+                        onChange={this.handleImage}
+                      />
                     </div>
-                  </form>
-                </form>
-              </form>
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                      <img
+                        width="100px"
+                        src={user.image}
+                        className="img-fluid"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <div className="col-sm-12">
+                    <button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={this.editUser}
+                    >
+                      UPDATE
+                    </button>
+                  </div>
+                </div>
+              </div>
             </form>
-          </form>
-        </form>
-      </form>
+          </div>
+        </div>
+      </div>
     );
   }
 }

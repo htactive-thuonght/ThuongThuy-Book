@@ -1,5 +1,6 @@
 import React from "react";
 import { withFirebase } from "../Firebase/context";
+import Swal from "sweetalert2";
 
 class FormAddUser extends React.Component {
   constructor(props) {
@@ -13,7 +14,11 @@ class FormAddUser extends React.Component {
 
   addUser = () => {
     this.handleUpload();
-    setTimeout(this.handleHide, 2000);
+    Swal.fire({
+      title: "Success",
+      text: "Do you want to continue",
+      type: "success"
+    });
   };
 
   handleChange = event => {
@@ -69,7 +74,7 @@ class FormAddUser extends React.Component {
         <div className="container-fluid">
           <div className="row bg-title">
             <div className="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-              <h4 className="page-title">Basic Table</h4>{" "}
+              <h4 className="page-title">User Table</h4>{" "}
             </div>
             <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12"> </div>
           </div>
@@ -80,7 +85,7 @@ class FormAddUser extends React.Component {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter book's quantity"
+                  placeholder="Enter User's Name"
                   name="name"
                   defaultValue={name}
                   onChange={this.handleChange}
@@ -91,7 +96,7 @@ class FormAddUser extends React.Component {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter book's name"
+                  placeholder="Enter User's Age"
                   name="age"
                   defaultValue={age}
                   onChange={this.handleChange}
@@ -102,7 +107,7 @@ class FormAddUser extends React.Component {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter book's quantity"
+                  placeholder="Enter User's Phone"
                   name="phone"
                   defaultValue={phone}
                   onChange={this.handleChange}
@@ -114,6 +119,7 @@ class FormAddUser extends React.Component {
                 <select
                   className="form-control"
                   id="exampleFormControlSelect1"
+                  placeholder="Enter User's Class"
                   name="classes"
                   defaultValue={classes}
                   onChange={this.handleChange}
@@ -138,7 +144,7 @@ class FormAddUser extends React.Component {
                 <div className="col-sm-12">
                   <button
                     type="button"
-                    className="btn btn-success"
+                    className="btn btn-success buttonDF "
                     onClick={this.addUser}
                   >
                     ADD
@@ -154,4 +160,3 @@ class FormAddUser extends React.Component {
 }
 
 export default withFirebase(FormAddUser);
-// export default AddBook;

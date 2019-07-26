@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase/context";
+import Swal from "sweetalert2";
 
 class FormUpdateBook extends Component {
   constructor(props) {
@@ -18,7 +19,6 @@ class FormUpdateBook extends Component {
     e.preventDefault();
     if (e.target.files[0]) {
       const image = e.target.files[0];
-      console.log("imga", image);
       this.setState(() => ({ image }));
     }
   };
@@ -73,6 +73,11 @@ class FormUpdateBook extends Component {
   };
   editBook = () => {
     this.handleUpload();
+    Swal.fire({
+      title: "Success",
+      text: "Do you want to continue",
+      type: "success"
+    });
   };
 
   render() {
@@ -89,7 +94,7 @@ class FormUpdateBook extends Component {
             <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12"> </div>
           </div>
           <div className="white-box">
-            <form className="formAdd">
+            <form className="form-horizontal form-material">
               <div>
                 <div className="form-group">
                   <label htmlFor="exampleInputPassword1">NAME</label>

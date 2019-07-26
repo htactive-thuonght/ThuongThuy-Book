@@ -15,7 +15,7 @@ export default class ProductList extends Component {
             <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12">
               <NavLink
                 to={{ pathname: "/addBook" }}
-                className="btn btn-danger pull-right "
+                className="btn btn-success buttonDF pull-right"
               >
                 ADD
               </NavLink>
@@ -35,7 +35,6 @@ export default class ProductList extends Component {
                         <th>NAME PRODUCT</th>
                         <th>TYPE</th>
                         <th>QUANTITY</th>
-                        <th>QUANTITY REMAIN</th>
                         <th>IMAGE</th>
                         <th>ACTION</th>
                       </tr>
@@ -48,7 +47,6 @@ export default class ProductList extends Component {
                             <td>{item.name}</td>
                             <td>{item.type}</td>
                             <td>{item.quantity}</td>
-                            <td>{item.quantityRemain}</td>
                             <td>
                               <img
                                 src={item.image}
@@ -57,9 +55,12 @@ export default class ProductList extends Component {
                               />
                             </td>
                             <td className="link">
-                              <p onClick={() => this.deleteBook(item.id)}>
+                              <Link
+                                to=""
+                                onClick={() => this.deleteBook(item.id)}
+                              >
                                 Xóa
-                              </p>
+                              </Link>
                               &ensp;
                               <Link to={`/updateBook/${item.id}`}> Sửa</Link>
                             </td>

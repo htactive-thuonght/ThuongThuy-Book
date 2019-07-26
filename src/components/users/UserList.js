@@ -15,7 +15,7 @@ export default class UserList extends Component {
             <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12">
               <NavLink
                 to={{ pathname: "/addUser" }}
-                className="btn btn-danger pull-right "
+                className="btn btn-success buttonDF pull-right "
               >
                 ADD
               </NavLink>
@@ -57,9 +57,12 @@ export default class UserList extends Component {
                               />
                             </td>
                             <td className="link">
-                              <p onClick={() => this.deleteUser(item.id)}>
+                              <Link
+                                to=""
+                                onClick={() => this.deleteUser(item.id)}
+                              >
                                 Xóa
-                              </p>
+                              </Link>
                               &ensp;
                               <Link
                                 className="link"

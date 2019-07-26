@@ -27,18 +27,21 @@ export default class FormUpdateCate extends Component {
               <div className="white-box">
                 <h3 className="box-title">UPDATE CATEGORY</h3>
                 <div className="containerTable">
-                  <form onSubmit={this.onSubmit} className="formAdd">
+                  <form
+                    onSubmit={this.onSubmit}
+                    className="form-horizontal form-material"
+                  >
                     {listBook.map((item, index) => {
                       return (
                         <div key={index}>
                           <div className="form-group">
-                            <label htmlFor="exampleInputPassword1">AGE</label>
+                            <label htmlFor="exampleInputPassword1">NAME</label>
                             <input
                               type="text"
                               className="form-control"
                               placeholder="Enter book's name"
-                              name="age"
-                              defaultValue={item.age}
+                              name="name"
+                              defaultValue={item.name}
                               onChange={this.handleChange}
                             />
                           </div>

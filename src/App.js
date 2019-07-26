@@ -25,6 +25,8 @@ import Borrow from "./components/booking/Borrow";
 import ShowBorrow from "./components/booking/ShowBorrow";
 import ShowDetail from "./components/booking/ShowDetail";
 
+import Swal from "sweetalert2";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -87,9 +89,16 @@ class App extends React.Component {
   };
 
   deleteCategory = index => {
-    this.props.firebase.categories(index).remove();
+    let comfirm = window.confirm("Are you sure you wish to delete this item?");
+    if (comfirm) {
+      this.props.firebase.categories(index).remove();
+      Swal.fire({
+        title: "Success!",
+        text: "Do you want to continue",
+        type: "success"
+      });
+    }
   };
-
   editCategories = (index, data) => {
     this.props.firebase.categories(index).set({
       name: data
@@ -102,11 +111,18 @@ class App extends React.Component {
   };
 
   deleteUser = index => {
-    this.props.firebase.queryUsers(index).remove();
+    let comfirm = window.confirm("Are you sure you wish to delete this item?");
+    if (comfirm) {
+      this.props.firebase.queryUsers(index).remove();
+      Swal.fire({
+        title: "Success!",
+        text: "Do you want to continue",
+        type: "success"
+      });
+    }
   };
 
   editUser = (index, data) => {
-    // console.log("object", data);
     const { image, value } = data;
     this.props.firebase.queryUsers(index).set({
       image: image || value.image,
@@ -118,26 +134,29 @@ class App extends React.Component {
   };
 
   addBook = book => {
-    // console.log(book);
-    const { name, type, quantity, quantityRemain, image } = book;
-    this.props.firebase
-      .books()
-      .push({ name, type, quantity, quantityRemain, image });
+    const { name, type, quantity, image } = book;
+    this.props.firebase.books().push({ name, type, quantity, image });
   };
 
   deleteBook = index => {
-    this.props.firebase.queryBooks(index).remove();
+    let comfirm = window.confirm("Are you sure you wish to delete this item?");
+    if (comfirm) {
+      this.props.firebase.queryBooks(index).remove();
+      Swal.fire({
+        title: "Success",
+        text: "Do you want to continue",
+        type: "success"
+      });
+    }
   };
 
   editBook = (index, data) => {
-    console.log("object", data);
     const { image, value } = data;
     this.props.firebase.queryBooks(index).set({
       image: image || value.image,
       name: value.name,
       type: value.type,
-      quantity: value.quantity,
-      quantityRemain: value.quantityRemain
+      quantity: value.quantity
     });
   };
 
@@ -177,6 +196,8 @@ class App extends React.Component {
             />
           </Switch>
           <Switch>
+            <Route path="/pay" component={() => <Pay users={users} />} />
+
             <Route
               exact
               path="/borrow/"

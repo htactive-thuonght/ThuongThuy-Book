@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 class Booking extends Component {
   constructor(props) {
     super(props);
-    // console.log(props);
     this.state = {
       booking: []
     };
@@ -33,30 +32,28 @@ class Booking extends Component {
     const { booking } = this.state;
     let listBooking = "";
     if (users.length > 0) {
-      listBooking = booking.map((item, index) => {
-        let user = users.find(user => user.id === item.userID);
-        let userName = "";
-        if (user) {
-          userName = user.name;
-        }
-        return (
-          <tr key={item.id}>
-            <td>{index + 1}</td>
-            <td>{userName}</td>
-            <td>{item.createAt}</td>
-            <td>
-              {" "}
-              <Link to={`/detailBook/${item.id}`}>
-                <button className=" btn-default ">Detail</button>
-              </Link>{" "}
-              &ensp;
-              <Link to={`/detailBook/${item.id}`}>
-                <button className=" btn-default">Pay</button>
-              </Link>
-            </td>
-          </tr>
-        );
-      });
+      listBooking = booking
+        .filter(bk => bk.status === "borrowed")
+        .map((item, index) => {
+          let user = users.find(user => user.id === item.userID);
+          let userName = "";
+          if (user) {
+            userName = user.name;
+          }
+          return (
+            <tr key={item.id}>
+              <td>{index + 1}</td>
+              <td>{userName}</td>
+              <td>{item.status}</td>
+              <td>{item.createAt}</td>
+              <td className="link">
+                {" "}
+                <Link to={`/detailBook/${item.id}`}>Detail</Link> &ensp;
+                <Link to={`/detailBook/${item.id}`}>Pay</Link>
+              </td>
+            </tr>
+          );
+        });
     }
     return (
       <div id="page-wrapper">
@@ -81,27 +78,30 @@ class Booking extends Component {
               </Link>
             </div>
           </div>
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="white-box">
-                <h3 className="box-title">User Table</h3>
+          {listBooking.length > 0 && (
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="white-box">
+                  <h3 className="box-title">Booking </h3>
 
-                <div className="table-responsive">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>User Name</th>
-                        <th>Borrow date</th>
-                        <th>Detail Booking</th>
-                      </tr>
-                    </thead>
-                    <tbody>{listBooking}</tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>User Name</th>
+                          <th>Borrow date</th>
+                          <th>Status</th>
+                          <th>Detail Booking</th>
+                        </tr>
+                      </thead>
+                      <tbody>{listBooking}</tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     );

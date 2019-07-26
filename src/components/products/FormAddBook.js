@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import { withFirebase } from "../Firebase/context";
+import Swal from "sweetalert2";
 
-class FormAddBook extends Component {
+class FormAddBook extends React.Component {
   constructor(props) {
     super(props);
     console.log(props.categories);
@@ -11,7 +12,7 @@ class FormAddBook extends Component {
     };
   }
   checkError = () => {
-    const { name, type, quantity, quantityRemain, errors } = this.state;
+    const { name, type, quantity, errors } = this.state;
     const cate = this.props.products;
 
     cate.map(item => {
@@ -28,18 +29,22 @@ class FormAddBook extends Component {
     if (!type) {
       errors.push("Type is empty!!");
     }
-    if (!quantityRemain) {
-      errors.push("quantity Remain is empty!!");
-    }
+
     if (errors.length > 0) {
       this.setState({ errors });
       return 0;
     }
     return 1;
   };
-  addBook = () => {
+  addBook = event => {
+    event.preventDefault();
     if (this.checkError()) {
       this.handleUpload();
+      Swal.fire({
+        title: "Success",
+        text: "Do you want to continue",
+        type: "success"
+      });
     }
   };
 
@@ -92,9 +97,8 @@ class FormAddBook extends Component {
   };
 
   render() {
-    const { name, type, quantity, image, quantityRemain, errors } = this.state;
+    const { name, type, quantity, image, errors } = this.state;
     const { categories } = this.props;
-    //let { show } = this.state;
     return (
       <div id="page-wrapper">
         <div className="container-fluid">
@@ -108,8 +112,10 @@ class FormAddBook extends Component {
             <form className="form-horizontal form-material">
               {errors
                 ? errors.map(error => (
-                    <p className="errors" key={error}>
-                      Error: {error}
+                    <p>
+                      <span className="label label-danger" key={error}>
+                        Error: {error}
+                      </span>
                     </p>
                   ))
                 : ""}
@@ -156,19 +162,6 @@ class FormAddBook extends Component {
                 </div>
               </div>
               <div className="form-group">
-                <label className="col-md-12">Quantity Remain</label>
-                <div className="col-md-12">
-                  <input
-                    type="number"
-                    placeholder="10"
-                    className="form-control form-control-line"
-                    name="quantityRemain"
-                    defaultValue={quantityRemain}
-                    onChange={this.handleChange}
-                  />{" "}
-                </div>
-              </div>
-              <div className="form-group">
                 <label className="col-md-12">Image</label>
                 <div className="col-md-12">
                   <input
@@ -184,8 +177,8 @@ class FormAddBook extends Component {
               <div className="form-group">
                 <div className="col-sm-12">
                   <button
-                    id="buttonDF"
-                    className="btn btn-success"
+                    // id="buttonDF"
+                    className="btn btn-success buttonDF"
                     onClick={this.addBook}
                   >
                     ADD
@@ -201,3 +194,4 @@ class FormAddBook extends Component {
 }
 
 export default withFirebase(FormAddBook);
+// export default AddBook;
