@@ -1,21 +1,55 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase/context";
-import { NavLink } from "react-router-dom";
 
 class FormAddBook extends Component {
   constructor(props) {
     super(props);
     console.log(props.categories);
+    console.log(this.props.products)
     this.state = {
+      errors: [],
       data: []
     };
   }
+  checkError = () => {
+    const { name, type, quantity, quantityRemain, errors } = this.state;
+    const cate = this.props.products;
 
+    cate.map(item => {
+      if (name === item.name) {
+        errors.push(name + "  is exists!!");
+      }
+    });
+    if (!name) {
+      errors.push("Name is empty!!");
+    }
+    if (!quantity) {
+      errors.push("Quantity is empty!!");
+    }
+    if (!type) {
+      errors.push("Type is empty!!");
+    }
+    if (!quantityRemain) {
+      errors.push("quantity Remain is empty!!");
+    }
+    if (errors.length > 0) {
+      this.setState({ errors });
+      return 0;
+    }
+    return 1;
+  };
   addBook = () => {
-    this.handleUpload();
+    if (this.checkError()) {
+      this.handleUpload();
+    }
   };
 
   handleChange = event => {
+    if (event.target.value) {
+      this.setState({
+        errors: []
+      });
+    }
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -59,8 +93,9 @@ class FormAddBook extends Component {
   };
 
   render() {
-    const { name, type, quantity, image, quantityRemain } = this.state;
+    const { name, type, quantity, image, quantityRemain, errors } = this.state;
     const { categories } = this.props;
+    console.log(this.state,44444)
     return (
       <div id="page-wrapper">
         <div className="container-fluid">
@@ -72,12 +107,19 @@ class FormAddBook extends Component {
           </div>
           <div className="white-box">
             <form className="form-horizontal form-material">
+              {errors
+                ? errors.map(error => (
+                    <p className="errors" key={error}>
+                      Error: {error}
+                    </p>
+                  ))
+                : ""}
               <div className="form-group">
                 <label className="col-md-12"> Name</label>
                 <div className="col-md-12">
                   <input
                     type="text"
-                    placeholder="Cao Thi Thuy"
+                    placeholder="Đắc Nhân Tâm"
                     className="form-control form-control-line"
                     name="name"
                     defaultValue={name}
@@ -91,6 +133,7 @@ class FormAddBook extends Component {
                   <select
                     className="form-control form-control-line"
                     name="type"
+                    placeholder="Truyện ngôn tình"
                     defaultValue={type}
                     onChange={this.handleChange}
                   >
@@ -141,16 +184,13 @@ class FormAddBook extends Component {
 
               <div className="form-group">
                 <div className="col-sm-12">
-                <NavLink to={{ pathname: "/books" }} className="link">
-                <button
-                    type="button"
+                  <button
+                    id="buttonDF"
                     className="btn btn-success"
                     onClick={this.addBook}
                   >
                     ADD
                   </button>
-                      </NavLink>
-                  
                 </div>
               </div>
             </form>

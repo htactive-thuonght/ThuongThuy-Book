@@ -1031,7 +1031,8 @@ label {
 .navbar-header {
     width: 100%;
     background: #3c4451;
-    border: 0
+    border: 0;
+    height: 50px;
 }
 
 .navbar-default {

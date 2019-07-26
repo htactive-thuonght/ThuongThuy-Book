@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase/context";
-import ShowBorrow from "../booking/ShowBorrow";
-
+import { Link } from "react-router-dom";
 const data = [];
 let count = 0;
 
@@ -14,11 +13,26 @@ class Borrow extends Component {
       booking: [],
       user: [],
       userID: "",
-      productChoosed: [],
       valueSearch: "",
       resultSearchProduct: [],
       productID: ""
     };
+  }
+  componentDidMount() {
+    let products = this.props.firebase.books();
+    products.on("value", snapshot => {
+      const object = snapshot.val();
+
+      if (object) {
+        const objectList = Object.keys(object).map(key => ({
+          ...object[key],
+          id: key
+        }));
+        this.setState({
+          products: objectList
+        });
+      }
+    });
   }
   searchUser = event => {
     if (event.target.value) {
@@ -58,22 +72,6 @@ class Borrow extends Component {
     });
   };
 
-  componentDidMount() {
-    let products = this.props.firebase.books();
-    products.on("value", snapshot => {
-      const object = snapshot.val();
-
-      if (object) {
-        const objectList = Object.keys(object).map(key => ({
-          ...object[key],
-          id: key
-        }));
-        this.setState({
-          products: objectList
-        });
-      }
-    });
-  }
   searchProduct = event => {
     if (event.target.value) {
       var listProduct = this.state.products;
@@ -113,29 +111,9 @@ class Borrow extends Component {
       return listProductSearch;
     }
   };
-
-  done = () => {
-    const data = {
-      products: this.state.productsChoose,
-      userID: this.state.userID,
-      createAt:
-        new Date().getFullYear() +
-        "-" +
-        (new Date().getMonth() + 1) +
-        "-" +
-        new Date().getDate() +
-        " " +
-        new Date().getHours() +
-        ":" +
-        new Date().getMinutes() +
-        ":" +
-        new Date().getSeconds()
-    };
-    this.props.firebase.queryBooking().push(data);
-  };
-
   add = id => {
     const { resultSearchProduct } = this.state;
+    console.log(this.state,123123);
     count = 0;
     if (!data.length) {
       data.push({
@@ -162,110 +140,181 @@ class Borrow extends Component {
       productsChoose: data
     });
   };
+
+  resultAdd = () => {
+    const { selectItem } = this.state.productsChoose;
+    if (selectItem) {
+      const itemadd = selectItem.map((item, index) => (
+        <tr key={index}>
+          <td>{index + 1}</td>
+          <td>{item.id}</td>
+          <td>{item.name}</td>
+          <td>1</td>
+          <td>
+            <img src={item.image} width="50px" alt="" />
+          </td>
+          <td>
+            <a
+              href="#sbdhjs"
+              onClick={() => this.add(index)}
+              className="btn btn-primary"
+            >
+              Add
+            </a>
+          </td>
+        </tr>
+      ));
+      return itemadd;
+    }
+  };
   remove = index => {
     this.state.productsChoose.splice(index, 1);
     this.setState({
       productsChoose: this.state.productsChoose.filter(i => i !== index)
     });
-  }
+  };
+
+  doneBooking = () => {
+    const data = {
+      products: this.state.productsChoose,
+      userID: this.state.userID,
+      status: "borrowed",
+      borrowDate:
+        new Date().getFullYear() +
+        "-" +
+        (new Date().getMonth() + 1) +
+        "-" +
+        new Date().getDate() +
+        " " +
+        new Date().getHours() +
+        ":" +
+        new Date().getMinutes() +
+        ":" +
+        new Date().getSeconds()
+    };
+    this.props.firebase.queryBooking().push(data);
+    alert("Booking success");
+  };
 
   render() {
     const dataSelected = this.state.productsChoose.map(
       (productsChoose, index) => {
-        const { image, name } = productsChoose.item;
+        const { image, name, id, quantity } = productsChoose.item;
 
         return (
-          <div className="col-md-4" key={index}>
-            <div className="card">
-              <img className="card-img-top" src={image} alt="Card  cap" />
-              <div className="card-body">
-                <h5 className="card-title">{name}</h5>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#sbdhjs" className="btn btn-primary">
-                  Quantity: {productsChoose.quantity}
-                </a>
-                <a></a>
-                <button className="btn btn-success" onClick={() => this.remove(index)}>Remove</button>
-              </div>
-            </div>
-          </div>
+          <tr key={index}>
+            <td>{index + 1}</td>
+            <td>{name}</td>
+            <td>{id}</td>
+            <td>{quantity}</td>
+            <td>
+              <img src={image} width="50px" alt="" />
+            </td>
+            <td>
+              <button
+                className="btn btn-success"
+                onClick={() => this.remove(index)}
+              >
+                Remove
+              </button>
+            </td>
+          </tr>
         );
       }
     );
 
     return (
-      <div className="booking">
-        <div className="row-group">
-          <div className="form-group search-user">
-            <label htmlFor="exampleInputPassword1">Search User:</label>
-            <input
-              type="text"
-              className="form-control user-booking"
-              placeholder="Enter user name"
-              name="valueSearch"
-              onKeyPress={this.searchUser}
-              onChange={this.handleChange}
-            />
+      <div id="page-wrapper">
+        <div className="container-fluid">
+          <div className="row bg-title">
+            <div className="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+              <h4 className="page-title">Basic Table</h4>
+            </div>
+
+            <div className="row">
+              <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <form role="search" className="app-search hidden-xs">
+                  <input
+                    type="text"
+                    placeholder="Search Users .........."
+                    className="form-control"
+                    onKeyPress={this.searchUser}
+                    onChange={this.handleChange}
+                  />
+                </form>
+
+                <div className="table-responsive">
+                  <ul className="list-group">{this.showListUser()}</ul>
+                </div>
+              </div>
+
+              <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <form role="search" className="app-search hidden-xs">
+                  <input
+                    type="text"
+                    placeholder="Search Books .........."
+                    className="form-control"
+                    onKeyPress={this.searchProduct}
+                    onChange={this.handleChange}
+                  />
+                </form>
+              </div>
+            </div>
           </div>
 
           <div className="row">
-            <ul className="list-group list-borrow">{this.showListUser()}</ul>
-          </div>
-        </div>
-        <div className="row-group">
-          <div className="form-group search-user">
-            <label htmlFor="exampleInputPassword1">Search Product:</label>
-            <input
-              type="text"
-              className="form-control user-booking"
-              placeholder="Enter book's name"
-              name="search"
-              onKeyPress={this.searchProduct}
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-12 list">
-            <div className="white-box">
-              <h3 className="box-title">List of Results Product Table</h3>
-              <div className="table-responsive">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Book ID</th>
-                      <th>Book Name</th>
-                      <th>Quatity</th>
-                      <th>Image</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>{this.resultSearchProduct()}</tbody>
-                </table>
+            <div className="col-sm-12">
+              <div className="white-box">
+                <div className="table-responsive">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Book ID</th>
+                        <th>Book Name</th>
+                        <th>Quatity</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>{this.resultSearchProduct()}</tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
           <div className="row">
-            <div className="done-choose">
-              <button onClick={() => this.done()} className="btn btn-success">
-                Done
-              </button>
+            <div className="col-sm-12">
+              <div className="white-box">
+                <div className="table-responsive">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Book ID</th>
+                        <th>Book Name</th>
+                        <th>Quatity</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>{dataSelected}</tbody>
+                  </table>
+                  <Link to={{ pathname: "/booking" }}>
+                    <button
+                      id="buttonDF"
+                      className="btn btn-success"
+                      onClick={() => this.doneBooking()}
+                      style={{ marginLeft: "45%" }}
+                    >
+                      Done
+                    </button>
+                  </Link>
+                </div>
+              </div>
             </div>
-            <div className="col-md-12 list">{dataSelected}</div>
           </div>
         </div>
-
-        <div className="row list-choose">
-          <ShowBorrow />
-        </div>
-        <footer className="footer text-center">
-          {' '}
-          thuongthuy@gmail.com || (+84) 856 244 358{' '}
-        </footer>
       </div>
     );
   }

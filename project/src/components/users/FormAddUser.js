@@ -1,6 +1,5 @@
 import React from "react";
 import { withFirebase } from "../Firebase/context";
-import { NavLink } from "react-router-dom";
 
 class FormAddUser extends React.Component {
   constructor(props) {
@@ -64,89 +63,89 @@ class FormAddUser extends React.Component {
 
   render() {
     const { name, age, image, classes, phone } = this.state;
+    //let { show } = this.state;
     return (
       <div id="page-wrapper">
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="white-box">
-                <h3 className="box-title">USER'S INFORMATION</h3>
+          <div className="row bg-title">
+            <div className="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+              <h4 className="page-title">Basic Table</h4>{" "}
+            </div>
+            <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12"> </div>
+          </div>
+          <div className="white-box">
+            <form className="form-horizontal form-material">
+              <div className="form-group">
+                <label htmlFor="exampleInputPassword1">NAME</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter book's quantity"
+                  name="name"
+                  defaultValue={name}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="exampleInputPassword1">AGE</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter book's name"
+                  name="age"
+                  defaultValue={age}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="exampleInputPassword1">PHONE</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter book's quantity"
+                  name="phone"
+                  defaultValue={phone}
+                  onChange={this.handleChange}
+                />
+              </div>
 
-                <div className="containerTable">
-                  <form onSubmit={this.onSubmit} className="formAdd">
-                    <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">NAME</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter book's quantity"
-                        name="name"
-                        defaultValue={name}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">AGE</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter book's name"
-                        name="age"
-                        defaultValue={age}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">PHONE</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter book's quantity"
-                        name="phone"
-                        defaultValue={phone}
-                        onChange={this.handleChange}
-                      />
-                    </div>
+              <div className="form-group">
+                <label htmlFor="exampleFormControlSelect1">CLASS</label>
+                <select
+                  className="form-control"
+                  id="exampleFormControlSelect1"
+                  name="classes"
+                  defaultValue={classes}
+                  onChange={this.handleChange}
+                >
+                  {this.state.arrClass.map((item, index) => (
+                    <option key={index}>{item}</option>
+                  ))}
+                </select>
+              </div>
 
-                    <div className="form-group">
-                      <label htmlFor="exampleFormControlSelect1">CLASS</label>
-                      <select
-                        className="form-control"
-                        id="exampleFormControlSelect1"
-                        name="classes"
-                        defaultValue={classes}
-                        onChange={this.handleChange}
-                      >
-                        {this.state.arrClass.map((item, index) => (
-                          <option key={index}>{item}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">IMAGE</label>
-                      <input
-                        type="file"
-                        className="form-control-file"
-                        name="image"
-                        defaultValue={image}
-                        onChange={this.handleImage}
-                      />
-                    </div>
-                    <NavLink to={{ pathname: "/users" }} className="link">
-                    <button
-                      type="button"
-                      className="btn btn-success"
-                      onClick={this.addUser}
-                    >
-                      ADD
-                    </button>
-                      </NavLink>
-                   
-                  </form>
+              <div className="form-group">
+                <label htmlFor="exampleInputPassword1">IMAGE</label>
+                <input
+                  type="file"
+                  className="form-control-file"
+                  name="image"
+                  defaultValue={image}
+                  onChange={this.handleImage}
+                />
+              </div>
+              <div className="form-group">
+                <div className="col-sm-12">
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={this.addUser}
+                  >
+                    ADD
+                  </button>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

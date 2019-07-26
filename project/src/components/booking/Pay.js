@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase/context";
+import Swal from "sweetalert2";
 class Pay extends Component {
   constructor(props) {
     super(props);
@@ -7,7 +8,8 @@ class Pay extends Component {
       user: [],
       userID: "",
       booking: [],
-      paying:[]
+      paying: [],
+      productChoosePay: []
     };
   }
   componentDidMount() {
@@ -38,22 +40,73 @@ class Pay extends Component {
       this.setState({ user: listUser });
     }
   };
-  showListUser = () => {
-    const { user } = this.state;
-    if (user) {
-      const listUserSearch = user.map(item => (
-        <li className="list-group-item" key={item.id}>
+
+
+  showListem = () => {
+
+    const { users } = this.props;
+    const { booking } = this.state;
+    let listBooking = "";
+    if (users.length > 0) {
+      // booking.map(item => item.includes(users));
+      listBooking = booking.filter(bk => bk.status === "borrowed").map((item, index) => {
+        let user = users.find(user => user.id === item.userID );
+        console.log(user,121)
+        let userName = "";
+        if (user) {
+          userName = user.name;
+        }
+        return (
+          <li className="list-group-item" key={item.id}>
           <input
             type="radio"
             name="userID"
             onChange={this.handleChange}
-            value={item.id}
+            Value={item.id}
           />
-          {item.name}
+          {userName}
         </li>
-      ));
-      return listUserSearch;
+        );
+      });return listBooking
+      
     }
+
+  };
+
+  showListUser = () => {
+    let idUser = "-LkgaayWTAo1voGZ3K47";
+    // let idUser= this.state.userID
+    // const { products } = this.props;
+    const { booking } = this.state;
+    let listUser = "";
+    if (booking.length > 0) {
+      listUser = booking.filter(
+        item => item.userID === idUser && item.status === "borrowed"
+      );
+
+      let listProduct = listUser.map(item =>
+        item.products.find(it => it.item.id)
+      );
+      console.log("list:", listProduct)
+     let showList = listProduct.map((product, index) =>{
+       
+       return (<tr key={index}>
+        <td>{index + 1}</td>
+        <td>{product.item.name}</td>
+        <td>{product.item.type}Ly</td>
+        <td>
+          <img
+            className=""
+            src={product.image}
+            width="50px"
+            alt=""
+          />
+        </td>
+      </tr>)
+     });
+     return showList;
+    }
+    return "";
   };
 
   handleChange = event => {
@@ -72,15 +125,17 @@ class Pay extends Component {
     }
   };
 
-  pay = () => {
+  done = () => {
     let list = this.state.booking.filter(
       item => item.userID === this.state.userID
     );
+    let a = list.map(item => item.id);
     const data = {
       products: list,
       userID: this.state.userID,
-      status:true,
-      createAt:
+      status: "returned",
+      // borrowDate:
+      returnDate:
         new Date().getFullYear() +
         "-" +
         (new Date().getMonth() + 1) +
@@ -93,69 +148,81 @@ class Pay extends Component {
         ":" +
         new Date().getSeconds()
     };
-    this.props.firebase.queryPay().push(data);
-    // this.props.firebase.booking(this.state.booking.item).remove();
+    let comfirm = window.confirm(
+      "Are you sure you wish to return this books ?"
+    );
+    if (comfirm) {
+      this.props.firebase.queryBorrow(a).set(data);
+
+      Swal.fire({
+        title: "Success!",
+        text: "Do you want to continue",
+        type: "success"
+      });
+    }
   };
 
   render() {
-    let list = this.state.booking.filter(
-      item => item.userID === this.state.userID
-    );
-    console.log('list ngkjg',list)
+    // this.showListem()
 
     return (
-      <div className="pay-book">
-        <div className="row-group">
-          <div className="form-group user">
-            <label htmlFor="exampleInputPassword1">Name User</label>
-            <input
-              type="text"
-              className="form-control user-booking"
-              placeholder="Enter user name"
-              name="valueSearch"
-              onKeyPress={this.searchUser}
-              onChange={this.handleChange}
-            />
+      <div id="page-wrapper">
+        <div className="container-fluid">
+          <div className="row bg-title">
+            <div className="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+              <h4 className="page-title">Basic Table</h4>
+            </div>
+
+            <div className="row">
+              <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <form role="search" className="app-search hidden-xs">
+                  <input
+                    type="text"
+                    placeholder="Search Users .........."
+                    className="form-control"
+                    onKeyPress={() => this.searchUser}
+                    // name="userSearch"
+                    onChange={this.handleChange}
+                  />
+                </form>
+
+                <div className="table-responsive">
+                  <ul className="list-group">{()=>this.showListem()}</ul>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="row">
-            <ul className="list-group list-borrow">{this.showListUser()}</ul>
+            <div className="col-sm-12">
+              <div className="white-box">
+                <div className="table-responsive">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Book ID</th>
+                        <th>Book Name</th>
+                        <th>Book Type</th>
+                        <th>Image</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.showListUser()}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="row list-user">{this.listInforUser()}</div>
-        <div className="row book-detail">
-          {list.map((item, index) => {
-            return (
-              <div className="col-md-12" key={index}>
-                {item.products.map((product, index) => {
-                  return (
-                    <div className="col-md-4" key={index}>
-                      <div className="card">
-                        <img
-                          className="card-img-top"
-                          src={product.item.image}
-                          alt="Card  cap"
-                        />
-                        <div className="card-body">
-                          <h5 className="card-title">{product.item.name}</h5>
-                          <p className="card-text">
-                            Some quick example text to build on the card title
-                            and make up the bulk of the card's content.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
         <div className="row">
-          <button className="btn btn-success" onClick={() => this.pay()}>Pay Book </button>
+          <button className="btn btn-success" onClick={() => this.done()}>
+            Pay Book{" "}
+          </button>
         </div>
         <footer className="footer text-center">
-          {' '}
-          thuongthuy@gmail.com || (+84) 856 244 358{' '}
+          {" "}
+          thuongthuy@gmail.com || (+84) 856 244 358{" "}
         </footer>
       </div>
     );

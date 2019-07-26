@@ -4,8 +4,10 @@ import LeftMenu from "./components/layout/LeftMenu";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import { withFirebase } from "./components/Firebase/context";
+import Swal from "sweetalert2";
 
 import "./App.css";
+
 import ProductList from "./components/products/ProductList";
 import FormAddBook from "./components/products/FormAddBook";
 import FormUpdateBook from "./components/products/FormUpdateBook";
@@ -17,10 +19,12 @@ import FormUpdateCate from "./components/categories/FormUpdateCate";
 import UserList from "./components/users/UserList";
 import FormAddUser from "./components/users/FormAddUser";
 import FormUpdateUser from "./components/users/FormUpdateUser";
+
 import Booking from "./components/booking/Booking";
-import Borrow from "./components/booking/Borrow";
 import Pay from "./components/booking/Pay";
-import ShowDetailBook from "./components/booking/ShowDetailBook";
+import Borrow from "./components/booking/Borrow";
+import ShowBorrow from "./components/booking/ShowBorrow";
+import ShowDetail from "./components/booking/ShowDetail";
 
 class App extends React.Component {
   constructor(props) {
@@ -43,6 +47,7 @@ class App extends React.Component {
       case "users": {
         return this.props.firebase.users(index);
       }
+
       default: {
         return "";
       }
@@ -83,7 +88,15 @@ class App extends React.Component {
   };
 
   deleteCategory = index => {
-    this.props.firebase.categories(index).remove();
+    let comfirm = window.confirm("Are you sure you wish to delete this item?");
+    if (comfirm) {
+      this.props.firebase.categories(index).remove();
+      Swal.fire({
+        title: "Success!",
+        text: "Do you want to continue",
+        type: "success"
+      });
+    }
   };
 
   editCategories = (index, data) => {
@@ -98,7 +111,15 @@ class App extends React.Component {
   };
 
   deleteUser = index => {
-    this.props.firebase.queryUsers(index).remove();
+    let comfirm = window.confirm("Are you sure you wish to delete this item?");
+    if (comfirm) {
+      this.props.firebase.queryUsers(index).remove();
+      Swal.fire({
+        title: "Success!",
+        text: "Do you want to continue",
+        type: "success"
+      });
+    }
   };
 
   editUser = (index, data) => {
@@ -120,11 +141,18 @@ class App extends React.Component {
   };
 
   deleteBook = index => {
-    this.props.firebase.queryBooks(index).remove();
+    let comfirm = window.confirm("Are you sure you wish to delete this item?");
+    if (comfirm) {
+      this.props.firebase.queryBooks(index).remove();
+      Swal.fire({
+        title: "Success",
+        text: "Do you want to continue",
+        type: "success"
+      });
+    }
   };
 
   editBook = (index, data) => {
-    console.log("object", data);
     const { image, value } = data;
     this.props.firebase.queryBooks(index).set({
       image: image || value.image,
@@ -165,21 +193,36 @@ class App extends React.Component {
                 />
               )}
             />
-            <Route path="/booking" component={() => <Booking />} />
+            <Route
+              path="/booking"
+              component={() => <Booking users={users} />}
+            />
           </Switch>
           <Switch>
-            <Route path="/borrow" component={() => <Borrow users={users} />} />
-
-            <Route path="/pay" component={() => <Pay users={users} />} />
+            <Route
+              exact
+              path="/borrow/"
+              component={match => (
+                <Borrow users={users} match={match} products={products} />
+              )}
+            />
+            <Route
+              exact
+              path="/borrow/:id/:id"
+              component={match => (
+                <ShowBorrow users={users} match={match} products={products} />
+              )}
+            />
+            <Route path="/pay" component={() => <Pay users={users} products={products}/>} />
           </Switch>
-          <Route
-            path="/detailBook/:id"
-            component={match => <ShowDetailBook match={match} users={users} />}
-          />
           <Route
             path="/addBook"
             component={() => (
-              <FormAddBook categories={categories} addBook={this.addBook} />
+              <FormAddBook
+                categories={categories}
+                products={products}
+                addBook={this.addBook}
+              />
             )}
           />
           <Route
@@ -191,6 +234,12 @@ class App extends React.Component {
                 editBook={this.editBook}
                 match={match}
               />
+            )}
+          />
+          <Route
+            path="/detailBook/:id"
+            component={match => (
+              <ShowDetail users={users} match={match} products={products} />
             )}
           />
           <Route
@@ -206,7 +255,10 @@ class App extends React.Component {
           <Route
             path="/addCategory"
             component={() => (
-              <FormAddCategories addCategory={this.addCategory} />
+              <FormAddCategories
+                categories={categories}
+                addCategory={this.addCategory}
+              />
             )}
           />
 

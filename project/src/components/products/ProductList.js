@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 export default class ProductList extends Component {
   deleteBook = id => {
     this.props.deleteBook(id);
@@ -10,15 +10,14 @@ export default class ProductList extends Component {
         <div className="container-fluid">
           <div className="row bg-title">
             <div className="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-              <h4 className="page-title">Basic Table</h4>{" "}
+              <h4 className="page-title">Product Table</h4>{" "}
             </div>
             <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-              {" "}
               <NavLink
                 to={{ pathname: "/addBook" }}
-                className="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
+                className="btn btn-danger pull-right "
               >
-                Add
+                ADD
               </NavLink>
             </div>
           </div>
@@ -26,10 +25,8 @@ export default class ProductList extends Component {
           <div className="row">
             <div className="col-sm-12">
               <div className="white-box">
-                <h3 className="box-title">Basic Table</h3>
-                <p className="text-muted">
-                  Add class <code>.table</code>
-                </p>
+                <h3 className="box-title">Product Table</h3>
+
                 <div className="table-responsive">
                   <table className="table">
                     <thead>
@@ -59,14 +56,12 @@ export default class ProductList extends Component {
                                 alt=""
                               />
                             </td>
-                            <td>
-                              <NavLink onClick={() => this.deleteBook(item.id)}>
-                                Delete
-                              </NavLink>
+                            <td className="link">
+                              <p onClick={() => this.deleteBook(item.id)}>
+                                Xóa
+                              </p>
                               &ensp;
-                              <NavLink to={`/updateBook/${item.id}`}>
-                                Update
-                              </NavLink>
+                              <Link to={`/updateBook/${item.id}`}> Sửa</Link>
                             </td>
                           </tr>
                         );

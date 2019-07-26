@@ -12,11 +12,10 @@ class LeftMenu extends React.Component {
         <div className="sidebar-nav navbar-collapse slimscrollsidebar">
           <ul className="nav" id="side-menu">
             <li style={{ padding: "10px 0 0" }}>
-              
-              <NavLink to={{ pathname: "/" }} className="link">
+              <a href="/" className="waves-effect">
                 <i className="fa fa-clock-o fa-fw" aria-hidden="true" />
-                <span className="hide-menu">HOME</span>
-              </NavLink>
+                <span className="hide-menu">Dashboard</span>
+              </a>
             </li>
             <li>
               <NavLink to={{ pathname: "/users" }} className="link">

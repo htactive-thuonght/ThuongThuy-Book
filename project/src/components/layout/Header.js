@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -9,10 +9,10 @@ class Header extends Component {
       <div>
         <nav
           className="navbar navbar-default navbar-static-top m-b-0"
-          style={{ padding: '0px' }}
+          style={{ padding: "0px" }}
         >
           <div className="navbar-header">
-            {' '}
+            {" "}
             <div className="top-left-part">
               <div className="logo" href="/">
                 Thuy Thuong

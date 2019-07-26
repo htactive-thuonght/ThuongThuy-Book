@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
 import { withFirebase } from "../Firebase/context";
 
 class FormUpdateBook extends Component {
@@ -75,6 +74,7 @@ class FormUpdateBook extends Component {
   editBook = () => {
     this.handleUpload();
   };
+
   render() {
     let book = this.state.value;
     const { categories } = this.props;
@@ -82,92 +82,98 @@ class FormUpdateBook extends Component {
     return (
       <div id="page-wrapper">
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="white-box">
-                <h3 className="box-title">UPDATE BOOKS</h3>
-
-                <div className="containerTable">
-                  <form onSubmit={this.onSubmit} className="formAdd">
-                    <div>
-                      <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">Name</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter book's quantity"
-                          name="name"
-                          defaultValue={book.name}
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="exampleFormControlSelect1">Type</label>
-                        <select
-                          className="form-control"
-                          id="exampleFormControlSelect1"
-                          name="type"
-                          defaultValue={book.type}
-                          onChange={this.handleChange}
-                        >
-                          {categories.map((item, index) => (
-                            <option key={index}>{item.name}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">QUANTITY</label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          placeholder="Enter book's quantity"
-                          name="phone"
-                          defaultValue={book.quantity}
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">
-                          QUANTITY REMAIN
-                        </label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          placeholder="Enter book's quantity remain"
-                          name="quantityRemain"
-                          defaultValue={book.quantityRemain}
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <img
-                          width="60px"
-                          src={book.image}
-                          className="img-fluid"
-                          alt=""
-                        />
-                        <label htmlFor="exampleInputPassword1">IMAGE</label>
-                        <input
-                          type="file"
-                          className="form-control-file"
-                          name="img"
-                          onChange={this.handleImage}
-                        />
-                      </div>
-                      <NavLink to={{ pathname: "/books" }} className="link">
-                        <button
-                          type="button"
-                          className="btn btn-success"
-                          onClick={this.editBook}
-                        >
-                          UPDATE
-                        </button>
-                      </NavLink>
+          <div className="row bg-title">
+            <div className="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+              <h4 className="page-title">Basic Table</h4>{" "}
+            </div>
+            <div className="col-lg-9 col-sm-8 col-md-8 col-xs-12"> </div>
+          </div>
+          <div className="white-box">
+            <form className="formAdd">
+              <div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">NAME</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter book's quantity"
+                    name="name"
+                    defaultValue={book.name}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleFormControlSelect1">TYPE</label>
+                  <select
+                    className="form-control"
+                    id="exampleFormControlSelect1"
+                    name="type"
+                    defaultValue={book.type}
+                    onChange={this.handleChange}
+                  >
+                    {categories.map((item, index) => (
+                      <option key={index}>{item.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">QUANTITY</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Enter book's quantity"
+                    name="phone"
+                    defaultValue={book.quantity}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">QUANTITY REMAIN</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Enter book's quantity remain"
+                    name="quantityRemain"
+                    defaultValue={book.quantityRemain}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">IMAGE</label>
+                  <div className="row">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                      <input
+                        type="file"
+                        className="form-control-file"
+                        name="img"
+                        // defaultValue={user.img}
+                        onChange={this.handleImage}
+                      />
                     </div>
-                  </form>
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                      <img
+                        width="100px"
+                        src={book.image}
+                        className="img-fluid"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <div className="col-sm-12">
+                    <button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={this.editBook}
+                    >
+                      UPDATE
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

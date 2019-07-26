@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 class FormUpdateUser extends Component {
   constructor(props) {
     super(props);
+    // console.log(props.users);
     const book_id = this.props.match.match.params.id;
     const books = this.props.users;
     let book = {};
@@ -42,6 +43,7 @@ class FormUpdateUser extends Component {
   editUser = e => {
     e.preventDefault();
     this.handleUpload();
+    // this.props.editUser(this.state.value.id, this.state.value);
   };
 
   handleUpload = () => {
@@ -81,21 +83,21 @@ class FormUpdateUser extends Component {
   };
 
   render() {
-    console.log(this.state.value);
+    // console.log(this.state.value);
     let user = this.state.value;
     return (
-      <div id="page-wrapper">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="white-box">
+      <form id="page-wrapper">
+        <form className="container-fluid">
+          <form className="row">
+            <form className="col-md-12">
+              <form className="white-box">
                 <h3 className="box-title">UPDATE CATEGORY</h3>
 
-                <div className="containerTable">
+                <form className="containerTable">
                   <form onSubmit={this.onSubmit} className="formAdd">
                     <div>
                       <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">Name</label>
+                        <label htmlFor="exampleInputPassword1">NAME</label>
                         <input
                           type="text"
                           className="form-control"
@@ -163,23 +165,26 @@ class FormUpdateUser extends Component {
                           </div>
                         </div>
                       </div>
-                      <NavLink to={{ pathname: "/users" }} className="link">
-                        <button
-                          type="button"
-                          className="btn btn-success"
-                          onClick={this.editUser}
-                        >
-                          UPDATE
-                        </button>
-                      </NavLink>
+
+                      <div className="form-group">
+                        <div className="col-sm-12">
+                          <button
+                            type="button"
+                            className="btn btn-success"
+                            onClick={this.editUser}
+                          >
+                            UPDATE
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                </form>
+              </form>
+            </form>
+          </form>
+        </form>
+      </form>
     );
   }
 }
